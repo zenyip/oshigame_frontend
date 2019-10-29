@@ -3,22 +3,24 @@ import { allUsers } from '../reducers/usersReducer'
 import { connect } from 'react-redux'
 
 const Users = (props) => {
+	const {token, user, users, allUsers } = props
+
 
 	useEffect (() => {
-		if (props.token && props.user) {
-			if (props.user.admin) {
-				props.allUsers(props.token)
+		if (token && user) {
+			if (user.admin) {
+				allUsers(token)
 			}
 		}
-	}, [props.token, props.user])
+	}, [token, user, allUsers])
 
 	const headstyle = {
 		paddingTop: "20px"
 	}
 
 	const usersList = () => {
-		if (props.users.length > 0) {
-			return props.users.map(u => (
+		if (users.length > 0) {
+			return users.map(u => (
 				<div key={u.id}>
 					<h3 style={headstyle}>{u.username}</h3>
 					<div>displayname: {u.displayname}</div>

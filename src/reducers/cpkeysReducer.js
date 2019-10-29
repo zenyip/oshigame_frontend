@@ -44,6 +44,7 @@ export const addNewKey = (key, token) => {
 			type: 'ADD_KEY',
 			data: addedKey
 		})
+		return addedKey
 	}
 }
 

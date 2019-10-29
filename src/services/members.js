@@ -6,4 +6,13 @@ const getAll = async () => {
 	return response.data
 }
 
-export default { getAll }
+const addMember = async (newMember, token) => {
+	const config = {
+		headers: { Authorization: `bearer ${token}` },
+	}
+	const data = { newMember }
+	const response = await axios.post(baseUrl, data, config)
+	return response.data
+}
+
+export default { getAll, addMember }

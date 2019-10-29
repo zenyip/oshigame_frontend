@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Menu as UIMenu, Button } from 'semantic-ui-react'
 
+const style = {
+	marginBottom: "20px"
+}
+
 const Menu = (props) => {
 
 	const adminMenu = () => {
@@ -18,7 +22,7 @@ const Menu = (props) => {
 	}
 
 	return (
-		<UIMenu>
+		<UIMenu style={style}>
 			<UIMenu.Item link>
 				<Link to="/">Home</Link>
 			</UIMenu.Item>

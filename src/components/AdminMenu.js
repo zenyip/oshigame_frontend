@@ -12,6 +12,9 @@ const AdminMenu = () => {
 			<UIMenu.Item link>
 				<Link to="/users">users</Link>
 			</UIMenu.Item>
+			<UIMenu.Item link>
+				<Link to="/new_member">add member</Link>
+			</UIMenu.Item>
 		</React.Fragment>
 	)
 }

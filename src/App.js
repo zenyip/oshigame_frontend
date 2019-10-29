@@ -8,6 +8,7 @@ import Login from './components/Login'
 import SignUpForm from './components/SignUpForm'
 import Cpkeys from './components/Cpkeys'
 import Users from './components/Users'
+import MemberForm from './components/MemberForm'
 import { initializeMembers } from './reducers/membersReducer'
 import { setToken } from './reducers/tokenReducer'
 import { setUserByToken } from './reducers/userReducer'
@@ -20,21 +21,21 @@ import { Container } from 'semantic-ui-react'
 
 const App = (props) => {
 
-	const { initializeMembers } = props
+	const { setToken, setUserByToken, initializeMembers } = props
 
 	useEffect (() => {
 		initializeMembers()
-	}, [])
+	}, [initializeMembers])
 
 	useEffect (() => {
 		const loggedUserTokenJSON = window.localStorage.getItem('oshigameUserToken')
 
 		if (loggedUserTokenJSON) {
 			const savedToken = JSON.parse(loggedUserTokenJSON)
-			props.setToken(savedToken)
-			props.setUserByToken(savedToken)
+			setToken(savedToken)
+			setUserByToken(savedToken)
 		}
-	}, [])
+	}, [setToken, setUserByToken])
 
 	const memberById = (id) => {
     return props.members.find(m => m.id === id)
@@ -70,6 +71,9 @@ const App = (props) => {
 					} />
 					<Route exact path="/users" render={() =>
 						<Users />
+					} />
+					<Route exact path="/new_member" render={() =>
+						<MemberForm />
 					} />
 				</div>
 			</Router>

@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom'
 
 const Members = props => {
 	if (props.members.length > 0) {
-        const memberSpan = members => members.map(member =>
-            <span key={member.id}>
-                <Link to={`/members/${member.id}`}>
-                    <img src={member.pic_link} alt={member.name_e} height="200" />
-                </Link>
-            </span>
-		)
+        const memberSpan = members => members.map(m => {
+            return (
+				<span key={m.id}>
+					<Link to={`/members/${m.id}`}>
+						<img src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" />
+					</Link>
+				</span>
+			)
+		})
 
 		return (
 			<div>

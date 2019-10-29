@@ -4,18 +4,19 @@ import { allKeys } from '../reducers/cpkeysReducer'
 import { connect } from 'react-redux'
 
 const Cpkeys = (props) => {
+	const { token, user, allKeys, cpkeys } = props
 
 	useEffect (() => {
-		if (props.token && props.user) {
-			if (props.user.admin) {
-				props.allKeys(props.token)
+		if (token && user) {
+			if (user.admin) {
+				allKeys(token)
 			}
 		}
-	}, [props.token, props.user])
+	}, [token, user, allKeys])
 
 	const cpkeysList = () => {
-		if (props.cpkeys.length > 0) {
-			return props.cpkeys.map(k => <div key={k.id}>{k.key}</div>)
+		if (cpkeys.length > 0) {
+			return cpkeys.map(k => <div key={k.id}>{k.key}</div>)
 		} else {
 			return <div>no available keys</div>
 		}

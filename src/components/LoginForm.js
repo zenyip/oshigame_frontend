@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { setUsername, setPassword } from '../reducers/loginInfoReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { setToken } from '../reducers/tokenReducer'
 import { userLogin } from '../reducers/userReducer'
@@ -10,20 +9,20 @@ import { Form, Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 const LoginNoHistory = (props) => {
-	const handleUsernameChange = (event) => {
-		props.setUsername(event.target.value)
-	}
-
-	const handlePasswordChange = (event) => {
-		props.setPassword(event.target.value)
-	}
+	const [username, setUsername] = useState('')
+	const [password, setPassword] = useState('')
 
 	const handleLogin = async (event) => {
 		event.preventDefault()
 		try {
-			const loggedUser = await props.userLogin(props.loginInfo)
-			props.setUsername('')
-			props.setPassword('')
+			const loginInfo = {
+				username,
+				password
+			}
+
+			const loggedUser = await props.userLogin(loginInfo)
+			setUsername('')
+			setPassword('')
 			window.localStorage.setItem(
 				'oshigameUserToken', JSON.stringify(loggedUser.token)
 			)
@@ -38,15 +37,20 @@ const LoginNoHistory = (props) => {
 
 	return (
 		<Form onSubmit={handleLogin} padding="5" >
-			<Form.Field>
-				<label>username</label>
-				<input id="username" onChange={handleUsernameChange} value={props.loginInfo.username} />
-			</Form.Field>
-			<Form.Field>
-				<label>password</label>
-				<input id="password" type='password' onChange={handlePasswordChange} value={props.loginInfo.password} />
-			</Form.Field>
-			<Button id="loginButton" type="submit">login</Button>
+			<Form.Input 
+				label='username'
+				placeholder='username'
+				onChange={({ target }) => setUsername(target.value)}
+				value={username}
+			/>
+			<Form.Input
+				label='password'
+				placeholder='password'
+				type='password'
+				onChange={({ target }) => setPassword(target.value)}
+				value={password}
+			/>
+			<Button type="submit">login</Button>
 			<Link to="/sign_up"><Button color='pink' >Sign Up</Button></Link>
 		</Form>
 	)
@@ -54,15 +58,12 @@ const LoginNoHistory = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		loginInfo: state.loginInfo,
 		user: state.user
 	}
 }
 
 const mapDispatchToProps = {
 	setNotification,
-	setUsername,
-	setPassword,
 	setToken,
 	setUserByToken,
 	userLogin

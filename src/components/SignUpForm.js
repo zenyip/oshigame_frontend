@@ -44,26 +44,37 @@ const SignUpNoHistory = (props) => {
 
 	return (
 		<Form onSubmit={submit}>
-			<Form.Field>
-				<label>username</label>
-				<input onChange={({ target }) => setUsername(target.value)} value={username} />
-			</Form.Field>
-			<Form.Field>
-				<label>name for display</label>
-				<input onChange={({ target }) => setDisplayname(target.value)} value={displayname} />
-			</Form.Field>
-			<Form.Field>
-				<label>password</label>
-				<input type='password' onChange={({ target }) => setPassword_1(target.value)} value={password_1} />
-			</Form.Field>
-			<Form.Field>
-				<label>password (again)</label>
-				<input type='password' onChange={({ target }) => setPassword_2(target.value)} value={password_2} />
-			</Form.Field>
-			<Form.Field>
-				<label>create-key (provided by admin)</label>
-				<input onChange={({ target }) => setCreatekey(target.value)} value={createkey} />
-			</Form.Field>
+			<Form.Input
+				label='username'
+				placeholder='e.g. Fans0048'
+				onChange={({ target }) => setUsername(target.value)}
+				value={username}
+			/>
+			<Form.Input
+				label='name for display'
+				placeholder='e.g. The Legenary Idol Agency'
+				onChange={({ target }) => setDisplayname(target.value)}
+				value={displayname}
+			/>
+			<Form.Input
+				label='password'
+				placeholder='password'
+				type='password'
+				onChange={({ target }) => setPassword_1(target.value)}
+				value={password_1}
+			/>
+			<Form.Input
+				placeholder='password (please type again)'
+				type='password'
+				onChange={({ target }) => setPassword_2(target.value)}
+				value={password_2}
+			/>
+			<Form.Input
+				label='create-key'
+				placeholder='create-key (provided by admin)'
+				onChange={({ target }) => setCreatekey(target.value)}
+				value={createkey}
+			/>
 			<Button color='pink' type="submit">Submit</Button>
 		</Form>
 	)

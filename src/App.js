@@ -2,10 +2,12 @@ import React, { useEffect }  from 'react'
 import { connect } from 'react-redux'
 import Menu from './components/Menu'
 import Notification from './components/Notification'
+import Home from './components/Home'
 import Member from './components/Member'
 import Members from './components/Members'
 import Login from './components/Login'
 import SignUpForm from './components/SignUpForm'
+import Profile from './components/Profile'
 import Cpkeys from './components/Cpkeys'
 import Users from './components/Users'
 import MemberForm from './components/MemberForm'
@@ -52,7 +54,7 @@ const App = (props) => {
 						</div>
 					} />
 					<Route exact path="/" render={() =>
-						<Redirect to="/members" />
+						<Home />
 					} />
 					<Route exaxt path="/login" render={() =>
 						props.user ? <Redirect to="/" /> : <Login />
@@ -65,6 +67,9 @@ const App = (props) => {
 					} />
 					<Route exact path="/members/:id" render={({ match }) =>
 						<Member shownMember={memberById(match.params.id)} />
+					} />
+					<Route exact path="/profile" render={() =>
+						<Profile />
 					} />
 					<Route exact path="/cpkeys" render={() =>
 						<Cpkeys />

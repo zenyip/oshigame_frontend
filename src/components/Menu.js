@@ -11,13 +11,24 @@ const style = {
 
 const Menu = (props) => {
 
-	const adminMenu = () => {
+	const extendedMenu = () => {
 		if (!props.user) {
 			return null
 		} else if (!props.user.admin) {
-			return null
+			return (
+				<UIMenu.Item link>
+					<Link to="/profile">Profile</Link>
+				</UIMenu.Item>
+			)
 		} else {
-			return <AdminMenu />
+			return (
+				<React.Fragment>
+					<UIMenu.Item link>
+						<Link to="/profile">Profile</Link>
+					</UIMenu.Item>
+					<AdminMenu />
+				</React.Fragment>
+			)
 		}
 	}
 
@@ -32,7 +43,7 @@ const Menu = (props) => {
 			<UIMenu.Item>
 				{props.user ? <CurrentUser /> : <Link to="/login"><Button>login</Button></Link>}
 			</UIMenu.Item>
-			{adminMenu()}
+			{extendedMenu()}
 		</UIMenu>
 	)
 }

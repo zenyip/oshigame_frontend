@@ -19,8 +19,8 @@ const cpkeysReducer = (state = [], action) => {
 		return sortedKey
 	}
 	case 'ADD_KEY': {
-		let newState = state.concat(action.data)
-		return newState.sort(sortByKey)
+		const newState = state.concat(action.data)
+		return newState.slice(0).sort(sortByKey)
 	}
 	default:
 		return state

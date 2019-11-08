@@ -41,7 +41,7 @@ const Menu = (props) => {
 				<Link to="/members">Members</Link>
 			</UIMenu.Item>
 			<UIMenu.Item>
-				{props.user ? <CurrentUser /> : <Link to="/login"><Button>login</Button></Link>}
+				{props.user ? <CurrentUser /> : <Link to="/login"><Button>login / sign up</Button></Link>}
 			</UIMenu.Item>
 			{extendedMenu()}
 		</UIMenu>

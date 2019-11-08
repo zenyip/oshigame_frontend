@@ -135,6 +135,11 @@ const membersReducer = (state = [], action) => {
 		sortedMember = katakanaSort(sortedMember)
 		return sortedMember
 	}
+	case 'UPDATE_MEMBER_BID': {
+		console.log(action.data)
+		const newState = state.map(m => m.id === action.data.id ? action.data : m)
+		return newState
+	}
 	default:
 		return state
 	}
@@ -197,6 +202,15 @@ export const sortMembersByKatakana = () => {
 	return async dispatch => {
 		dispatch({
 			type: 'MEMBERSORT_KATAKANA'
+		})
+	}
+}
+
+export const updateMemberBid = (memberUpdate) => {
+	return async dispatch => {
+		dispatch({
+			type: 'UPDATE_MEMBER_BID',
+			data: memberUpdate
 		})
 	}
 }

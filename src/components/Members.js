@@ -55,7 +55,7 @@ const Members = props => {
 				<h2>Members</h2>
 				<Grid>
 					<Grid.Row>
-						<Grid.Column width={2} textAlign='middle'>
+						<Grid.Column width={2} verticalAlign='middle'>
 							Sorting by :
 						</Grid.Column>
 						<Grid.Column width={12}>
@@ -67,7 +67,7 @@ const Members = props => {
 						</Grid.Column>
 					</Grid.Row>
 					<Grid.Row>
-						<Grid.Column width={2} textAlign='middle'>
+						<Grid.Column width={2} verticalAlign='middle'>
 							Filters :
 						</Grid.Column>
 						<Grid.Column width={12}>
@@ -90,7 +90,7 @@ const Members = props => {
 						</Grid.Column>
 					</Grid.Row>
 				</Grid>
-				<Grid columns={props.members.length}>
+				<Grid columns={5}>
 					{memberSpan()}
 				</Grid>
 			</div>

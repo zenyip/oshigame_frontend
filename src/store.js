@@ -7,6 +7,8 @@ import userReducer from './reducers/userReducer'
 import tokenReducer from './reducers/tokenReducer'
 import cpkeysReducer from './reducers/cpkeysReducer'
 import usersReducer from './reducers/usersReducer'
+import negotiationsReducer from './reducers/negotiationsReducer'
+import phraseReducer from './reducers/phraseReducer'
 
 const reducer = combineReducers({
 	members: membersReducer,
@@ -14,7 +16,9 @@ const reducer = combineReducers({
 	user: userReducer,
 	token: tokenReducer,
 	cpkeys: cpkeysReducer,
-	users: usersReducer
+	users: usersReducer,
+	negotiations: negotiationsReducer,
+	phrase: phraseReducer
 })
 
 const store = createStore(

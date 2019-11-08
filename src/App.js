@@ -10,10 +10,12 @@ import SignUpForm from './components/SignUpForm'
 import Profile from './components/Profile'
 import Cpkeys from './components/Cpkeys'
 import Users from './components/Users'
+import Negotiations from './components/Negotiations'
 import MemberForm from './components/MemberForm'
 import { initializeMembers } from './reducers/membersReducer'
 import { setToken } from './reducers/tokenReducer'
 import { setUserByToken } from './reducers/userReducer'
+import { checkPhrase } from './reducers/phraseReducer'
 import {
 	BrowserRouter as Router,
 	Route, Redirect
@@ -23,11 +25,15 @@ import { Container } from 'semantic-ui-react'
 
 const App = (props) => {
 
-	const { setToken, setUserByToken, initializeMembers } = props
+	const { setToken, setUserByToken, initializeMembers, checkPhrase } = props
 
 	useEffect (() => {
 		initializeMembers()
 	}, [initializeMembers])
+
+	useEffect (() => {
+		checkPhrase()
+	})
 
 	useEffect (() => {
 		const loggedUserTokenJSON = window.localStorage.getItem('oshigameUserToken')
@@ -77,6 +83,9 @@ const App = (props) => {
 					<Route exact path="/users" render={() =>
 						<Users />
 					} />
+					<Route exact path="/negotiations" render={() =>
+						<Negotiations />
+					} />
 					<Route exact path="/new_member" render={() =>
 						<MemberForm />
 					} />
@@ -96,6 +105,7 @@ const mapDispatchToProps = {
 	setToken,
 	setUserByToken,
 	initializeMembers,
+	checkPhrase
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

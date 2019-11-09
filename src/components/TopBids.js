@@ -1,6 +1,7 @@
 import React, { useEffect }  from 'react'
 import { getBids } from '../reducers/bidsReducer'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const TopBids = (props) => {
 	const {bids, getBids } = props
@@ -17,7 +18,13 @@ const TopBids = (props) => {
 			}
 			return topBids.map(b => (
 				<div key={b.id}>
-					<div>{bids.indexOf(b) + 1}. <strong>{`${b.nickname}`}</strong> at {b.bid}</div>
+					<div>
+						{`${bids.indexOf(b) + 1}. `}
+						<Link to={`/members/${b.memberId}`}>
+							{b.nickname}
+						</Link>
+						{` at ${b.bid}`}
+					</div>
 				</div>
 			))
 		} else {

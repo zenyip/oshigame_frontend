@@ -31,13 +31,40 @@ const Members = props => {
 			filteredMembers = teamFilter === 'All Teams' ? filteredMembers : filteredMembers.filter(m => m.team.includes(teamFilter))
 			filteredMembers = genFilter === 'All Generations' ? filteredMembers : filteredMembers.filter(m => m.generation.name === genFilter)
 			filteredMembers = agencyFilter === 'All Agency' ? filteredMembers : filteredMembers.filter(m => m.agency == null)
+			const borderStyle = (team) => {
+				let teamColor = ''
+				switch(team) {
+					case 'Team A': {
+						teamColor = '#ff66ff'
+						break
+					}
+					case 'Team K': {
+						teamColor = '#00cc00'
+						break
+					}
+					case 'Team B': {
+						teamColor = '#3399ff'
+						break
+					}
+					case 'Team 4': {
+						teamColor = 'Yellow'
+						break
+					}
+					default: {
+						teamColor = 'black'
+					}
+				}
+				return ({
+					border: `5px solid ${teamColor}`
+				})
+			}
 			if (filteredMembers.length > 0) {
 				return filteredMembers.map(m => {
 					return (
 						<Grid.Column key={m.id}>
 							<Grid.Row>
 								<Link to={`/members/${m.id}`}>
-									<img src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" />
+									<img src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={borderStyle(m.team[0])} />
 								</Link>
 							</Grid.Row>
 							<Grid.Row>

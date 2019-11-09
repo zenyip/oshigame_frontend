@@ -79,6 +79,12 @@ const membersReducer = (state = [], action) => {
 		return katakanaA - katakanaB	
 	}
 
+	const sortFunctionByKks = (a, b) => {
+		const kksA = a.kks ? 99 : 1
+		const kksB = b.kks ? 99 : 1
+		return kksA - kksB
+	}
+
 	const englishNameSort = (members) => {
 		let sortingMembers = members
 		sortingMembers = sortingMembers.sort(sortFunctionByFirstname_e)
@@ -96,6 +102,7 @@ const membersReducer = (state = [], action) => {
 	const defaultSort = (members) => {
 		let sortingMembers = members
 		sortingMembers = katakanaSort(sortingMembers)
+		sortingMembers = sortingMembers.sort(sortFunctionByKks)
 		sortingMembers = sortingMembers.sort(sortFunctionByTeam)
 		return sortingMembers
 	}

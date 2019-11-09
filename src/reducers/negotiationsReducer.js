@@ -4,13 +4,13 @@ const negotiationsReducer = (state = [], action) => {
 	const sortByBid = (a, b) => {
 		const BidA = a.bid
 		const BidB = b.bid
-		return BidA - BidB
+		return BidB - BidA
 	}
 
 	switch(action.type) {
 	case 'ALL_NEGOTIATIONS': {
-		const sortedUser = action.data.sort(sortByBid)
-		return sortedUser
+		const sortedNegotiations = action.data.sort(sortByBid)
+		return sortedNegotiations
 	}
 	case 'BID_PLACED': {
 		return state.concat(action.data)

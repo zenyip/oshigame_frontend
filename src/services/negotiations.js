@@ -10,6 +10,11 @@ const getAll = async (token) => {
 	return response.data
 }
 
+const getBids = async() => {
+	const response = await axios.get(`${ baseUrl }/currentbids`)
+	return response.data
+}
+
 const placeBid = async (newBid, token) => {
 	const config = {
 		headers: { Authorization: `bearer ${token}` },
@@ -28,4 +33,4 @@ const settle = async (token) => {
 	return response.data
 }
 
-export default { getAll, placeBid, settle }
+export default { getAll, placeBid, settle, getBids }

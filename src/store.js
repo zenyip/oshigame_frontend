@@ -9,6 +9,7 @@ import cpkeysReducer from './reducers/cpkeysReducer'
 import usersReducer from './reducers/usersReducer'
 import negotiationsReducer from './reducers/negotiationsReducer'
 import phraseReducer from './reducers/phraseReducer'
+import bidsReducer from './reducers/bidsReducer'
 
 const reducer = combineReducers({
 	members: membersReducer,
@@ -18,7 +19,8 @@ const reducer = combineReducers({
 	cpkeys: cpkeysReducer,
 	users: usersReducer,
 	negotiations: negotiationsReducer,
-	phrase: phraseReducer
+	phrase: phraseReducer,
+	bids: bidsReducer
 })
 
 const store = createStore(

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import TopBids from './TopBids'
 import { changePhrase } from '../reducers/phraseReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
-import { Form, Button, Select } from 'semantic-ui-react'
+import { Form, Button, Select, Grid } from 'semantic-ui-react'
 
 const phraseList = ['general', 'negotiation']
 const phraseOptions = phraseList.map(p => {return { key: p, text: p, value: p }})
@@ -48,10 +49,14 @@ const Home = (props) => {
 	}
 
 	const notice = () => {
+		const greenText = {
+			color: 'lime'
+		}
 		return (
 			<div>
-				<h3>Current Issues</h3>
+				<h3>Current Notes</h3>
 				<div>1. The app is NOT responsive. Please use the app on computers.</div>
+				<div>2. Client side is NOT synchronized witht the server automaticially. Please manually <span style={greenText}>REFRESH</span> the page to obtain the latest data.</div>
 			</div>
 		)
 	}
@@ -61,7 +66,14 @@ const Home = (props) => {
 			<h2>Welcome to Oshigame</h2>
 			<h3>phrase: {props.phrase} </h3>
 			{phraseChanger()}
-			{notice()}
+			<Grid column={2}>
+				<Grid.Column width={10}>
+					{notice()}
+				</Grid.Column>
+				<Grid.Column width={5}>
+					<TopBids />
+				</Grid.Column>
+			</Grid>
 		</div>
 	)
 }
@@ -76,7 +88,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
 	setNotification,
-	changePhrase
+	changePhrase,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

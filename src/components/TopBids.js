@@ -1,14 +1,25 @@
-import React, { useEffect }  from 'react'
+import React, { useEffect, useState }  from 'react'
 import { getBids } from '../reducers/bidsReducer'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { Grid } from 'semantic-ui-react'
 
 const TopBids = (props) => {
+	const [hoverBid, setHoverBid] = useState(null)
+
 	const {bids, getBids } = props
 
 	useEffect (() => {
 		getBids()
 	}, [getBids])
+
+	const showPic = (bid) => {
+		setHoverBid(bid)
+	}
+
+	const hidePic = () => {
+		setHoverBid(null)
+	}
 
 	const bidsList = () => {
 		if (bids.length > 0) {
@@ -19,8 +30,8 @@ const TopBids = (props) => {
 			return topBids.map(b => (
 				<div key={b.id}>
 					<div>
-						{`${bids.indexOf(b) + 1}. `}
-						<Link to={`/members/${b.memberId}`}>
+						{`${topBids.indexOf(b) + 1}. `}
+						<Link to={`/members/${b.memberId}`} onMouseOver={()=>showPic(b)} onMouseOut={hidePic}>
 							{b.nickname}
 						</Link>
 						{` at ${b.bid}`}
@@ -32,10 +43,23 @@ const TopBids = (props) => {
 		}
 	}
 
+	const memberPic = () => {
+		if (hoverBid) {
+			return <img src={hoverBid.pic_link} alt={`${hoverBid.firstname_e} ${hoverBid.lastname_e}`} height="200" />
+		}
+	}
+
 	return (
 		<div>
 			<h3>Current Top 10 Bids</h3>
-			{ bidsList() }
+			<Grid column={2}>
+				<Grid.Column width={6}>
+					{ bidsList() }
+				</Grid.Column>
+				<Grid.Column>
+					{ memberPic() }
+				</Grid.Column>
+			</Grid>
 		</div>
 	)
 }

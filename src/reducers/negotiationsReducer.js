@@ -12,9 +12,6 @@ const negotiationsReducer = (state = [], action) => {
 		const sortedNegotiations = action.data.sort(sortByBid)
 		return sortedNegotiations
 	}
-	case 'BID_PLACED': {
-		return state.concat(action.data)
-	}
 	case 'CLEAR_NEGOTIATIONS': {
 		return []
 	}
@@ -30,17 +27,6 @@ export const allNegotiations = (token) => {
 			type: 'ALL_NEGOTIATIONS',
 			data: negotiations
 		})
-	}
-}
-
-export const bidding = (bid, token) => {
-	return async dispatch => {
-		const negotiation = await negotiationsService.placeBid(bid, token)
-		dispatch({
-			type: 'BID_PLACED',
-			data: negotiation
-		})
-		return negotiation
 	}
 }
 

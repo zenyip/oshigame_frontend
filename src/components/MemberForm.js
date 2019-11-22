@@ -9,6 +9,16 @@ const genOptions = genList.map(g => {return { key: g, text: g, value: g }})
 const teamList = ['Team A', 'Team K', 'Team B', 'Team 4', 'Team 8']
 const teamOptions1 = teamList.map(t => {return { key: t, text: t, value: t }})
 const teamOptions2 = teamList.concat('No Kennin').map(t => {return { key: t, text: t, value: t }})
+const prefectureList = [
+	'Hokkaido', 'Aomori', 'Akita', 'Iwate', 'Yamagata', 'Miyagi', 'Fukushima',
+	'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Yamanashi',
+	'Aichi', 'Shizuoka', 'Gifu', 'Mie', 'Toyama', 'Ishikawa', 'Fukui', 'Nagano',
+	'Osaka', 'Kyoto', 'Hyogo', 'Wakayama', 'Nara', 'Shiga',
+	'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi',
+	'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa',
+	'Taiwan'
+]
+const hometownOptions = prefectureList.map(p => {return { key: p, text: p, value: p }})
 
 const MemberForm = (props) => {
 	const [firstname_e, setFirstname_e] = useState('')
@@ -128,10 +138,12 @@ const MemberForm = (props) => {
 						onChange={({ target }) => setBirthday(target.value)}
 						value={birthday}
 					/>
-					<Form.Input
+					<Form.Field
+						control={Select}
 						label='Hometown'
+						options={hometownOptions}
 						placeholder='Hometown'
-						onChange={({ target }) => setHometown(target.value)}
+						onChange={(e, data) => setHometown(data.value)}
 						value={hometown}
 					/>
 				</Form.Group>

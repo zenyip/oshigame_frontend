@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import TopBids from './TopBids'
+import TopValues from './TopValues'
 import { changePhrase } from '../reducers/phraseReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
@@ -61,17 +62,19 @@ const Home = (props) => {
 		)
 	}
 
+	const ranking = () => props.phrase === 'negotiation' ? <TopBids /> : <TopValues />
+
 	return (
 		<div>
 			<h2>Welcome to Oshigame</h2>
 			<h3>phrase: {props.phrase} </h3>
 			{phraseChanger()}
 			<Grid column={2}>
-				<Grid.Column width={10}>
+				<Grid.Column width={8}>
 					{notice()}
 				</Grid.Column>
-				<Grid.Column width={5}>
-					<TopBids />
+				<Grid.Column width={8}>
+					{ranking()}
 				</Grid.Column>
 			</Grid>
 		</div>

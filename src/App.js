@@ -13,6 +13,7 @@ import Users from './components/Users'
 import Negotiations from './components/Negotiations'
 import MemberForm from './components/MemberForm'
 import { initializeMembers } from './reducers/membersReducer'
+import { initializeDisplaynames } from './reducers/displaynamesReducer'
 import { setToken } from './reducers/tokenReducer'
 import { setUserByToken } from './reducers/userReducer'
 import { checkPhrase } from './reducers/phraseReducer'
@@ -25,11 +26,12 @@ import { Container } from 'semantic-ui-react'
 
 const App = (props) => {
 
-	const { setToken, setUserByToken, initializeMembers, checkPhrase } = props
+	const { setToken, setUserByToken, initializeMembers, initializeDisplaynames, checkPhrase } = props
 
 	useEffect (() => {
 		initializeMembers()
-	}, [initializeMembers])
+		initializeDisplaynames()
+	}, [initializeMembers, initializeDisplaynames])
 
 	useEffect (() => {
 		checkPhrase()
@@ -105,6 +107,7 @@ const mapDispatchToProps = {
 	setToken,
 	setUserByToken,
 	initializeMembers,
+	initializeDisplaynames,
 	checkPhrase
 }
 

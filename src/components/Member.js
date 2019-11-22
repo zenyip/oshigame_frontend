@@ -1,27 +1,58 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { setNotification } from '../reducers/notificationReducer'
-import { bidding } from '../reducers/negotiationsReducer'
+import negotiationsService from '../services/negotiations'
 import { setUserByToken } from '../reducers/userReducer'
-import { updateMemberBid } from '../reducers/membersReducer'
+import { updateMemberBid, initializeMembers } from '../reducers/membersReducer'
 import { connect } from 'react-redux'
-import { Form, Button, Grid, Table } from 'semantic-ui-react'
+import { Form, Button, Grid, Table, Confirm } from 'semantic-ui-react'
 
 const Member = (props) => {
 	const { shownMember } = props
 	const [bid, setBid] = useState('')
+	const [offer, setOffer] = useState('')
+	const [forceTradeConfirmOpen, setForceTradeConfirmOpen] = useState(false)
+	const [releaseConfirmOpen, setReleaseConfirmOpen] = useState(false)
 
 	const inlineStyle = {
 		display: 'inline'
 	}
 
-	const bidFormStyle = props.phrase === 'negotiation' && props.user ? { display: 'inline' } : { display: 'none'}
+	let bidFormStyle = { display: 'none' }
+	let offerFormStyle = { display: 'none' }
+	let releaseButtonStyle = { display: 'none' }
+
+	let lowerLimit = null
+	let upperLimit = null
+	let forceTradePrice = null
+	let releasePrice = null
+
+	if (shownMember) {
+		lowerLimit = Math.floor(shownMember.value*0.8)
+		upperLimit = Math.floor(shownMember.value*1.3)
+		forceTradePrice = upperLimit + 1
+		releasePrice = Math.floor(shownMember.value*0.5)
+	}
+
+	if (shownMember && props.phrase === 'negotiation' && props.user) {
+		if (!shownMember.agency) {
+			bidFormStyle = { display: 'inline' }
+		} else {
+			if (shownMember.agency.displayname.toString().includes(props.user.displayname) && shownMember.tradable) {
+				releaseButtonStyle = { display: 'inline' }
+			} else {
+				offerFormStyle = { display: 'inline' }
+			}
+			
+		}
+	}
 
 	useEffect (() => {
 		if (shownMember) {
 			setBid(shownMember.negotiation ? shownMember.negotiation.bid + 10 : shownMember.value)
+			setOffer(lowerLimit)
 		}
-	}, [shownMember])
+	}, [shownMember, lowerLimit])
 
 	if (shownMember) {
 
@@ -34,7 +65,7 @@ const Member = (props) => {
 						bid,
 						tradeType: 'bid'
 					}
-					const placedBid = await props.bidding(newBid, props.token)
+					const placedBid = await negotiationsService.placeBid(newBid, props.token)
 					await props.setUserByToken(props.token)
 					const memberUpdate = {
 						...shownMember,
@@ -52,6 +83,81 @@ const Member = (props) => {
 				} catch (exception) {
 					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
 				}
+			}
+		}
+
+		const handleForceTradeCancel = () => {
+			setForceTradeConfirmOpen(false)
+		}
+	
+		const handleForceTradeConfirm = async () => {
+			try {
+				const newForceTrade = {
+					memberId: shownMember.id,
+					bid: forceTradePrice,
+					tradeType: 'force',
+					recipient: shownMember.agency
+				}
+				await negotiationsService.applyForceTrade(newForceTrade, props.token)
+				await props.setUserByToken(props.token)
+				await props.initializeMembers()
+				props.setNotification({ content: `a force trade is applied at $${forceTradePrice} for signing ${shownMember.name_j} from ${shownMember.agency.displayname} `, colour: 'green' }, 5)
+			} catch (exception) {
+				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+			}
+			setForceTradeConfirmOpen(false)
+		}
+
+		const handleReleaseCancel = () => {
+			setReleaseConfirmOpen(false)
+		}
+	
+		const handleReleaseConfirm = async () => {
+			try {
+				const newRelease = {
+					memberId: shownMember.id,
+					bid: releasePrice,
+					tradeType: 'release',
+				}
+				await negotiationsService.releaseMember(newRelease, props.token)
+				await props.setUserByToken(props.token)
+				await props.initializeMembers()
+				props.setNotification({ content: `${shownMember.name_j} is released and cash back ${releasePrice}`, colour: 'green' }, 5)
+			} catch (exception) {
+				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+			}
+			setReleaseConfirmOpen(false)
+		}
+
+		const handleOffer = async (event) => {
+			event.preventDefault()
+			if (props.phrase === 'negotiation') {
+				if (offer < lowerLimit) {
+					props.setNotification({ content: 'your offer is too low', colour: 'red' }, 5)
+				} else if (offer > upperLimit) {
+					setForceTradeConfirmOpen(true)
+				} else {
+					try {
+						const newOffer = {
+							memberId: shownMember.id,
+							bid: offer,
+							tradeType: 'offer',
+							recipient: shownMember.agency
+						}
+						await negotiationsService.sendOffer(newOffer, props.token)
+						await props.setUserByToken(props.token)
+						props.setNotification({ content: `an offer of $${offer} is sent to ${shownMember.agency.displayname} for signing ${shownMember.name_j}`, colour: 'green' }, 5)
+					} catch (exception) {
+						props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+					}
+				}
+			}
+		}
+
+		const handleRelease = async (event) => {
+			event.preventDefault()
+			if (props.phrase === 'negotiation') {
+				setReleaseConfirmOpen(true)
 			}
 		}
 
@@ -135,9 +241,37 @@ const Member = (props) => {
 						Place Bid
 					</Button>
 				</Form>
+				<Form onSubmit={handleOffer} style={offerFormStyle}>
+					<Form.Input
+						style={inlineStyle}
+						type="number"
+						label={`Offer: (Range: ${lowerLimit}-${upperLimit} or Forced Trade at ${forceTradePrice})`}
+						placeholder={offer}
+						onChange={({ target }) => setOffer(target.value)}
+						value={offer}
+					/>
+					<Button type="submit" color='pink'>
+						Send Negotiation Offer
+					</Button>
+				</Form>
+				<Button onClick={handleRelease} style={releaseButtonStyle} color='violet'>
+					Release
+				</Button>
 				<Link to={'/members'}>
                     <Button>back</Button>
                 </Link>
+				<Confirm
+					open={forceTradeConfirmOpen}
+					content={`Confirm to force trade ${shownMember.nickname} at ${forceTradePrice} ?`}
+					onCancel={handleForceTradeCancel}
+					onConfirm={handleForceTradeConfirm}
+				/>
+				<Confirm
+					open={releaseConfirmOpen}
+					content={`Confirm to RELEASE ${shownMember.nickname} and get back ${releasePrice} ?`}
+					onCancel={handleReleaseCancel}
+					onConfirm={handleReleaseConfirm}
+				/>
 			</div>
 		)
 	} else {
@@ -159,9 +293,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
 	setNotification,
-	bidding,
 	setUserByToken,
-	updateMemberBid
+	updateMemberBid,
+	initializeMembers
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Member)

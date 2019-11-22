@@ -1,4 +1,5 @@
 import React, { useEffect }  from 'react'
+import User from './User'
 import { allUsers } from '../reducers/usersReducer'
 import { connect } from 'react-redux'
 
@@ -14,38 +15,11 @@ const Users = (props) => {
 		}
 	}, [token, user, allUsers])
 
-	const headstyle = {
-		paddingTop: "20px"
-	}
-
-	const oshimenList = (u) => {
-		const oshimens = u.oshimens.map(m => m.name_j)
-		return u.oshimens.length > 0 ? oshimens.join(', ') : 'none'
-	}
-
-	const negotiationList = (u) => {
-		if (u.negotiations.length > 0) {
-			const digestedList = u.negotiations.map(n => {
-				const member = members.filter(m => m.id === n.member)
-				const name = member[0].name_j
-				return `${name} at ${n.bid}`
-			})
-			return digestedList.join(', ')
-		} else {
-			return 'none'
-		}
-	}
-
 	const usersList = () => {
-		if (users.length > 0) {
+		if (users.length > 0 && members.length > 0) {
 			return users.map(u => (
 				<div key={u.id}>
-					<h3 style={headstyle}>{u.username}</h3>
-					<div>displayname: {u.displayname}</div>
-					<div>assest: {u.assest}</div>
-					<div>admin: {u.admin ? "Yes" : "No"}</div>
-					<div>oshimens: {oshimenList(u)} </div>
-					<div>negotiations: {negotiationList(u)} </div>
+					<User shownUser = {u} />
 				</div>
 			))
 		} else {

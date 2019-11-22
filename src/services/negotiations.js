@@ -24,6 +24,51 @@ const placeBid = async (newBid, token) => {
 	return response.data
 }
 
+const sendOffer = async (newOffer, token) => {
+	const config = {
+		headers: { Authorization: `bearer ${token}` },
+	}
+	const data = newOffer
+	const response = await axios.post(baseUrl, data, config)
+	return response.data
+}
+
+const acceptOffer = async (negotiationId, token) => {
+	const config = {
+		headers: { Authorization: `bearer ${token}` },
+	}
+	const data = { negotiationId }
+	const response = await axios.post(`${ baseUrl }/accept`, data, config)
+	return response.data
+}
+
+const rejectOffer = async (negotiationId, token) => {
+	const config = {
+		headers: { Authorization: `bearer ${token}` },
+	}
+	const data = { negotiationId }
+	const response = await axios.post(`${ baseUrl }/reject`, data, config)
+	return response.data
+}
+
+const applyForceTrade = async (newForceTrade, token) => {
+	const config = {
+		headers: { Authorization: `bearer ${token}` },
+	}
+	const data = newForceTrade
+	const response = await axios.post(baseUrl, data, config)
+	return response.data
+}
+
+const releaseMember = async (newRelease, token) => {
+	const config = {
+		headers: { Authorization: `bearer ${token}` },
+	}
+	const data = newRelease
+	const response = await axios.post(baseUrl, data, config)
+	return response.data
+}
+
 const settle = async (token) => {
 	const config = {
 		headers: { Authorization: `bearer ${token}` },
@@ -33,4 +78,4 @@ const settle = async (token) => {
 	return response.data
 }
 
-export default { getAll, placeBid, settle, getBids }
+export default { getAll, getBids, settle, placeBid, sendOffer, acceptOffer, rejectOffer, applyForceTrade, releaseMember }

@@ -25,7 +25,8 @@ const Negotiations = (props) => {
 			return negotiations.map(n => (
 				<div key={n.id}>
 					<h3 style={headstyle}>{n.member.name_j}</h3>
-					<div>current bid: {n.bid}</div>
+					<div>type of trade: {n.tradeType}</div>
+					<div>bid: {n.bid}</div>
 					<div>applicant: {n.applicant.username}</div>
 				</div>
 			))

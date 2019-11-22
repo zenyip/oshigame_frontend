@@ -19,9 +19,14 @@ const getByToken = async (token) => {
 	return response.data
 }
 
+const getDisplaynames = async () => {
+	const response = await axios.get(`${ baseUrl }/displaynames`)
+	return response.data
+}
+
 const addUser = async (data) => {
 	const response = await axios.post(baseUrl, data)
 	return response.data
 }
 
-export default { getAll, getByToken, addUser }
+export default { getAll, getByToken, getDisplaynames, addUser }

@@ -12,10 +12,6 @@ const membersReducer = (state = [], action) => {
 		const teamList = ['Team A', 'Team K', 'Team B', 'Team 4', 'Team 8']
 		let teamX = teamList.indexOf(x.team[0])
 		let teamY = teamList.indexOf(y.team[0])
-		if (teamX + teamY === 8) {
-			teamX = x.team.length === 2 ? teamList.indexOf(x.team[1]) : 999
-			teamY = y.team.length === 2 ? teamList.indexOf(y.team[1]) : 999
-		}
 		return teamX - teamY	
 	}
 
@@ -85,6 +81,27 @@ const membersReducer = (state = [], action) => {
 		return kksA - kksB
 	}
 
+	const sortFunctionByValue = (a, b) => {
+		const valueA = a.value
+		const valueB = b.value
+		return valueB - valueA
+	}
+
+	const sortFunctionByHometown = (x, y) => {
+		const prefectureList = [
+			'Hokkaido', 'Aomori', 'Akita', 'Iwate', 'Yamagata', 'Miyagi', 'Fukushima',
+			'Ibaraki', 'Tochigi', 'Gunma', 'Saitama', 'Chiba', 'Tokyo', 'Kanagawa', 'Niigata', 'Yamanashi',
+			'Aichi', 'Shizuoka', 'Gifu', 'Mie', 'Toyama', 'Ishikawa', 'Fukui', 'Nagano',
+			'Osaka', 'Kyoto', 'Hyogo', 'Wakayama', 'Nara', 'Shiga',
+			'Tottori', 'Shimane', 'Okayama', 'Hiroshima', 'Yamaguchi', 'Tokushima', 'Kagawa', 'Ehime', 'Kochi',
+			'Fukuoka', 'Saga', 'Nagasaki', 'Kumamoto', 'Oita', 'Miyazaki', 'Kagoshima', 'Okinawa',
+			'Taiwan'
+		]
+		let prefectureX = prefectureList.indexOf(x.hometown)
+		let prefectureY = prefectureList.indexOf(y.hometown)
+		return prefectureX - prefectureY	
+	}
+
 	const englishNameSort = (members) => {
 		let sortingMembers = members
 		sortingMembers = sortingMembers.sort(sortFunctionByFirstname_e)
@@ -100,11 +117,14 @@ const membersReducer = (state = [], action) => {
 	}
 	
 	const defaultSort = (members) => {
-		let sortingMembers = members
-		sortingMembers = katakanaSort(sortingMembers)
-		sortingMembers = sortingMembers.sort(sortFunctionByKks)
-		sortingMembers = sortingMembers.sort(sortFunctionByTeam)
-		return sortingMembers
+		let nonT8Members = members.filter(m => m.team[0] !== 'Team 8')
+		let t8Members = members.filter(m => m.team[0] === 'Team 8')
+		nonT8Members = katakanaSort(nonT8Members)
+		nonT8Members = nonT8Members.sort(sortFunctionByKks)
+		nonT8Members = nonT8Members.sort(sortFunctionByTeam)
+		t8Members = t8Members.sort(sortFunctionByHometown)
+		const sortedMembers = nonT8Members.concat(t8Members)
+		return sortedMembers
 	}
 
 	switch(action.type) {
@@ -142,8 +162,17 @@ const membersReducer = (state = [], action) => {
 		sortedMember = katakanaSort(sortedMember)
 		return sortedMember
 	}
+	case 'MEMBERSORT_HOMETOWN': {
+		let sortedMember = state.slice(0)
+		sortedMember = sortedMember.sort(sortFunctionByHometown)
+		return sortedMember
+	}
+	case 'MEMBERSORT_VALUE': {
+		let sortedMember = state.slice(0)
+		sortedMember = sortedMember.sort(sortFunctionByValue)
+		return sortedMember
+	}
 	case 'UPDATE_MEMBER_BID': {
-		console.log(action.data)
 		const newState = state.map(m => m.id === action.data.id ? action.data : m)
 		return newState
 	}
@@ -209,6 +238,22 @@ export const sortMembersByKatakana = () => {
 	return async dispatch => {
 		dispatch({
 			type: 'MEMBERSORT_KATAKANA'
+		})
+	}
+}
+
+export const sortMembersByHometown = () => {
+	return async dispatch => {
+		dispatch({
+			type: 'MEMBERSORT_HOMETOWN'
+		})
+	}
+}
+
+export const sortMembersByValue = () => {
+	return async dispatch => {
+		dispatch({
+			type: 'MEMBERSORT_VALUE'
 		})
 	}
 }

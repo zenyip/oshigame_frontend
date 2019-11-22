@@ -10,7 +10,7 @@ import {
 	sortMembersByValue
 } from '../reducers/membersReducer'
 import { Link } from 'react-router-dom'
-import { Grid, Button, Select } from 'semantic-ui-react'
+import { Grid, Button, Select, Image } from 'semantic-ui-react'
 
 const teamList = ['All Teams', 'Team A', 'Team K', 'Team B', 'Team 4', 'Team 8']
 const teamOptions = teamList.map(t => {return { key: t, text: t, value: t }})
@@ -39,6 +39,15 @@ const Members = props => {
 	const [genFilter, setGenFilter] = useState('All Generations')
 	const [hometownFilter, setHometownFilter] = useState('Any Hometown')
 	const [agencyFilter, setAgencyFilter] = useState('All Agency')
+	const [hoverMember, setHoverMember] = useState(null)
+
+	const onHover = (member) => {
+		setHoverMember(member)
+	}
+
+	const offHover = () => {
+		setHoverMember(null)
+	}
 
 	if (props.user) {
 		agencyList = ['All Agency', 'Under Your Agency', 'Signed by Others', 'Not Free', 'Free']
@@ -79,7 +88,7 @@ const Members = props => {
 			filteredMembers = genFilter === 'All Generations' ? filteredMembers : filteredMembers.filter(m => m.generation.name === genFilter)
 			filteredMembers = hometownFilter === 'Any Hometown' ? filteredMembers : filteredMembers.filter(m => m.hometown === hometownFilter)
 			filteredMembers = filteringByAgency(filteredMembers, agencyFilter)
-			const borderStyle = (team) => {
+			const profilePicStyle = (memberId, team) => {
 				const colorCheck = (checkTeam) => {
 					switch(checkTeam) {
 						case 'Team A': {
@@ -105,12 +114,38 @@ const Members = props => {
 				const teamColor1 = colorCheck(team[0])
 				const teamColor2 = team.length > 1 ? colorCheck(team[1]) : teamColor1
 
+				const opacity = memberId === hoverMember ? '0.3' : '1'
+
 				return ({
+					display: 'block',
+					opacity: opacity,
 					borderTop: `5px solid ${teamColor1}`,
 					borderLeft: `5px solid ${teamColor1}`,
 					borderBottom: `5px solid ${teamColor2}`,
 					borderRight: `5px solid ${teamColor2}`
 				})
+			}
+			const hoverText = (memberId) => {
+				const textShown = memberId === hoverMember ? null : 'none'
+				return ({
+					display: textShown,
+					position: 'absolute',
+					top: '50%',
+					left: '50%',
+					transform: 'translate(-50%, -50%)',
+					fontSize: '20px',
+					lineHeight: '1.5em',
+					textAlign: 'center',
+					color: '#000000',
+					textShadow: '2px 2px 2px #FFFFFF'
+				})
+			}
+			const agencyName = (member) => {
+				if (member.agency) {
+					return member.agency.displayname
+				} else {
+					return 'No Agency'
+				}
 			}
 			if (filteredMembers.length > 0) {
 				return filteredMembers.map(m => {
@@ -118,7 +153,18 @@ const Members = props => {
 						<Grid.Column key={m.id}>
 							<Grid.Row>
 								<Link to={`/members/${m.id}`}>
-									<img src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={borderStyle(m.team)} />
+									<div>
+										<Image fluid src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={profilePicStyle(m.id, m.team)} onMouseOver={()=>onHover(m.id)} onMouseOut={offHover}/>
+										<div style={hoverText(m.id)}>
+											{m.name_j}
+											<br />
+											in
+											<br />
+											{agencyName(m)}
+											<br />
+											Value: {m.value}
+										</div>
+									</div>
 								</Link>
 							</Grid.Row>
 							<Grid.Row>

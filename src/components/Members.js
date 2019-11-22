@@ -122,7 +122,7 @@ const Members = props => {
 								</Link>
 							</Grid.Row>
 							<Grid.Row>
-								<p>{m.name_e.firstname} {m.name_e.lastname}</p>
+								<p>{m.name_e.firstname} {m.name_e.lastname} - V:{m.value} </p>
 							</Grid.Row>
 						</Grid.Column>
 					)

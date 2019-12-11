@@ -1,14 +1,14 @@
 const tokenReducer = (state = null, action) => {
 
 	switch(action.type) {
-	case 'TOKEN_CHANGE': {
-		return action.data
-	}
-	case 'TOKEN_CLEAR': {
-		return null
-	}
-	default:
-		return state
+		case 'TOKEN_CHANGE': {
+			return action.data
+		}
+		case 'TOKEN_CLEAR': {
+			return null
+		}
+		default:
+			return state
 	}
 }
 

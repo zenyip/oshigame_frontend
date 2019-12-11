@@ -7,7 +7,8 @@ import {
 	sortMembersByTeam,
 	sortMembersByKatakana,
 	sortMembersByHometown,
-	sortMembersByValue
+	sortMembersByValue,
+	sortMembersByFanSize
 } from '../reducers/membersReducer'
 import { Link } from 'react-router-dom'
 import { Grid, Button, Select, Image } from 'semantic-ui-react'
@@ -155,7 +156,7 @@ const Members = props => {
 								<Link to={`/members/${m.id}`}>
 									<div>
 										<Image fluid src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={profilePicStyle(m.id, m.team)} onMouseOver={()=>onHover(m.id)} onMouseOut={offHover}/>
-										<div style={hoverText(m.id)}>
+										<div style={hoverText(m.id)} onMouseOver={()=>onHover(m.id)} onMouseOut={offHover}>
 											{m.name_j}
 											<br />
 											in
@@ -163,12 +164,14 @@ const Members = props => {
 											{agencyName(m)}
 											<br />
 											Value: {m.value}
+											<br />
+											Fans: {m.fanSize}
 										</div>
 									</div>
 								</Link>
 							</Grid.Row>
 							<Grid.Row>
-								<p>{m.name_e.firstname} {m.name_e.lastname} - V:{m.value} </p>
+								<p>{m.name_e.firstname} {m.name_e.lastname} - V:{m.value} / F:{m.fanSize}</p>
 							</Grid.Row>
 						</Grid.Column>
 					)
@@ -193,6 +196,7 @@ const Members = props => {
 							<Button onClick={props.sortMembersByGen} content='Generation'/>
 							<Button onClick={props.sortMembersByHometown} content='Hometown'/>
 							<Button onClick={props.sortMembersByValue} content='Value'/>
+							<Button onClick={props.sortMembersByFanSize} content='Fan Size'/>
 						</Grid.Column>
 					</Grid.Row>
 					<Grid.Row>
@@ -252,7 +256,8 @@ const mapDispatchToProps = {
 	sortMembersByEnglishName,
 	sortMembersByKatakana,
 	sortMembersByHometown,
-	sortMembersByValue
+	sortMembersByValue,
+	sortMembersByFanSize
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Members)

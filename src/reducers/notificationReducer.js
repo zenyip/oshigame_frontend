@@ -3,14 +3,14 @@ const initialState = { content: null, colour: 'white' }
 const notificationReducer = (state = initialState, action) => {
 
 	switch(action.type) {
-	case 'NOTIFY': {
-		const newMessage = { content: action.data.content, colour: action.data.colour }
-		return newMessage
-	}
-	case 'SILENT':
-		return { content: null, colour: 'white' }
-	default:
-		return state
+		case 'NOTIFY': {
+			const newMessage = { content: action.data.content, colour: action.data.colour }
+			return newMessage
+		}
+		case 'SILENT':
+			return { content: null, colour: 'white' }
+		default:
+			return state
 	}
 }
 

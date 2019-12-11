@@ -8,15 +8,15 @@ const negotiationsReducer = (state = [], action) => {
 	}
 
 	switch(action.type) {
-	case 'ALL_NEGOTIATIONS': {
-		const sortedNegotiations = action.data.sort(sortByBid)
-		return sortedNegotiations
-	}
-	case 'CLEAR_NEGOTIATIONS': {
-		return []
-	}
-	default:
-		return state
+		case 'ALL_NEGOTIATIONS': {
+			const sortedNegotiations = action.data.sort(sortByBid)
+			return sortedNegotiations
+		}
+		case 'CLEAR_NEGOTIATIONS': {
+			return []
+		}
+		default:
+			return state
 	}
 }
 

@@ -14,16 +14,16 @@ const cpkeysReducer = (state = [], action) => {
 	}
 
 	switch(action.type) {
-	case 'ALL_KEYS': {
-		const sortedKey = action.data.sort(sortByKey)
-		return sortedKey
-	}
-	case 'ADD_KEY': {
-		const newState = state.concat(action.data)
-		return newState.slice(0).sort(sortByKey)
-	}
-	default:
-		return state
+		case 'ALL_KEYS': {
+			const sortedKey = action.data.sort(sortByKey)
+			return sortedKey
+		}
+		case 'ADD_KEY': {
+			const newState = state.concat(action.data)
+			return newState.slice(0).sort(sortByKey)
+		}
+		default:
+			return state
 	}
 }
 

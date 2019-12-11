@@ -2,14 +2,14 @@ import phraseService from '../services/phrase'
 
 const phraseReducer = (state = '', action) => {
 	switch(action.type) {
-	case 'GET_PHRASE': {
-		return action.data
-	}
-	case 'CHANGE_PHRASE': {
-		return action.data
-	}
-	default:
-		return state
+		case 'GET_PHRASE': {
+			return action.data
+		}
+		case 'CHANGE_PHRASE': {
+			return action.data
+		}
+		default:
+			return state
 	}
 }
 

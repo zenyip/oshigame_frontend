@@ -87,6 +87,12 @@ const membersReducer = (state = [], action) => {
 		return valueB - valueA
 	}
 
+	const sortFunctionByFanSize = (a, b) => {
+		const fanA = a.fanSize
+		const fanB = b.fanSize
+		return fanB - fanA
+	}
+
 	const sortFunctionByHometown = (x, y) => {
 		const prefectureList = [
 			'Hokkaido', 'Aomori', 'Akita', 'Iwate', 'Yamagata', 'Miyagi', 'Fukushima',
@@ -128,56 +134,61 @@ const membersReducer = (state = [], action) => {
 	}
 
 	switch(action.type) {
-	case 'INIT_MEMBERS': {
-		const sortedMember = defaultSort(action.data)
-		return sortedMember
-	}
-	case 'ADD_MEMBER': {
-		let newState = state.concat(action.data)
-		newState = defaultSort(newState)
-		return newState
-	}
-	case 'MEMBERSORT_DEFAULT': {
-		let sortedMember = state.slice(0)
-		sortedMember = defaultSort(sortedMember)
-		return sortedMember
-	}
-	case 'MEMBERSORT_GENERATION': {
-		let sortedMember = state.slice(0)
-		sortedMember = sortedMember.sort(sortFunctionByGen)
-		return sortedMember
-	}
-	case 'MEMBERSORT_TEAM': {
-		let sortedMember = state.slice(0)
-		sortedMember = sortedMember.sort(sortFunctionByTeam)
-		return sortedMember
-	}
-	case 'MEMBERSORT_ENGLISHNAME': {
-		let sortedMember = state.slice(0)
-		sortedMember = englishNameSort(sortedMember)
-		return sortedMember
-	}
-	case 'MEMBERSORT_KATAKANA': {
-		let sortedMember = state.slice(0)
-		sortedMember = katakanaSort(sortedMember)
-		return sortedMember
-	}
-	case 'MEMBERSORT_HOMETOWN': {
-		let sortedMember = state.slice(0)
-		sortedMember = sortedMember.sort(sortFunctionByHometown)
-		return sortedMember
-	}
-	case 'MEMBERSORT_VALUE': {
-		let sortedMember = state.slice(0)
-		sortedMember = sortedMember.sort(sortFunctionByValue)
-		return sortedMember
-	}
-	case 'UPDATE_MEMBER_BID': {
-		const newState = state.map(m => m.id === action.data.id ? action.data : m)
-		return newState
-	}
-	default:
-		return state
+		case 'INIT_MEMBERS': {
+			const sortedMember = defaultSort(action.data)
+			return sortedMember
+		}
+		case 'ADD_MEMBER': {
+			let newState = state.concat(action.data)
+			newState = defaultSort(newState)
+			return newState
+		}
+		case 'MEMBERSORT_DEFAULT': {
+			let sortedMember = state.slice(0)
+			sortedMember = defaultSort(sortedMember)
+			return sortedMember
+		}
+		case 'MEMBERSORT_GENERATION': {
+			let sortedMember = state.slice(0)
+			sortedMember = sortedMember.sort(sortFunctionByGen)
+			return sortedMember
+		}
+		case 'MEMBERSORT_TEAM': {
+			let sortedMember = state.slice(0)
+			sortedMember = sortedMember.sort(sortFunctionByTeam)
+			return sortedMember
+		}
+		case 'MEMBERSORT_ENGLISHNAME': {
+			let sortedMember = state.slice(0)
+			sortedMember = englishNameSort(sortedMember)
+			return sortedMember
+		}
+		case 'MEMBERSORT_KATAKANA': {
+			let sortedMember = state.slice(0)
+			sortedMember = katakanaSort(sortedMember)
+			return sortedMember
+		}
+		case 'MEMBERSORT_HOMETOWN': {
+			let sortedMember = state.slice(0)
+			sortedMember = sortedMember.sort(sortFunctionByHometown)
+			return sortedMember
+		}
+		case 'MEMBERSORT_VALUE': {
+			let sortedMember = state.slice(0)
+			sortedMember = sortedMember.sort(sortFunctionByValue)
+			return sortedMember
+		}
+		case 'MEMBERSORT_FANSIZE': {
+			let sortedMember = state.slice(0)
+			sortedMember = sortedMember.sort(sortFunctionByFanSize)
+			return sortedMember
+		}
+		case 'UPDATE_MEMBER_BID': {
+			const newState = state.map(m => m.id === action.data.id ? action.data : m)
+			return newState
+		}
+		default:
+			return state
 	}
 }
 
@@ -254,6 +265,14 @@ export const sortMembersByValue = () => {
 	return async dispatch => {
 		dispatch({
 			type: 'MEMBERSORT_VALUE'
+		})
+	}
+}
+
+export const sortMembersByFanSize = () => {
+	return async dispatch => {
+		dispatch({
+			type: 'MEMBERSORT_FANSIZE'
 		})
 	}
 }

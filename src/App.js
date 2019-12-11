@@ -12,8 +12,10 @@ import Cpkeys from './components/Cpkeys'
 import Users from './components/Users'
 import Negotiations from './components/Negotiations'
 import MemberForm from './components/MemberForm'
+import { getServerTime, oneTick } from './reducers/timeReducer'
 import { initializeMembers } from './reducers/membersReducer'
 import { initializeDisplaynames } from './reducers/displaynamesReducer'
+import { initializeNotices } from './reducers/noticesReducer'
 import { setToken } from './reducers/tokenReducer'
 import { setUserByToken } from './reducers/userReducer'
 import { checkPhrase } from './reducers/phraseReducer'
@@ -26,12 +28,18 @@ import { Container } from 'semantic-ui-react'
 
 const App = (props) => {
 
-	const { setToken, setUserByToken, initializeMembers, initializeDisplaynames, checkPhrase } = props
+	const { getServerTime, oneTick, setToken, setUserByToken, initializeMembers, initializeDisplaynames, initializeNotices, checkPhrase } = props
 
 	useEffect (() => {
+		const startsTicking = () => {
+			setInterval(oneTick, 1000)
+		}
+		getServerTime()
+		startsTicking()
 		initializeMembers()
 		initializeDisplaynames()
-	}, [initializeMembers, initializeDisplaynames])
+		initializeNotices()
+	}, [getServerTime, oneTick, initializeMembers, initializeDisplaynames, initializeNotices])
 
 	useEffect (() => {
 		checkPhrase()
@@ -48,8 +56,8 @@ const App = (props) => {
 	}, [setToken, setUserByToken])
 
 	const memberById = (id) => {
-    return props.members.find(m => m.id === id)
-  }
+		return props.members.find(m => m.id === id)
+	}
 
 	return (
 		<Container>
@@ -106,8 +114,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
 	setToken,
 	setUserByToken,
+	getServerTime,
+	oneTick,
 	initializeMembers,
 	initializeDisplaynames,
+	initializeNotices,
 	checkPhrase
 }
 

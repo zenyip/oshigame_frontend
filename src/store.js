@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import timeReducer from './reducers/timeReducer'
 import membersReducer from './reducers/membersReducer'
 import notificationReducer from './reducers/notificationReducer'
 import userReducer from './reducers/userReducer'
@@ -11,6 +12,7 @@ import negotiationsReducer from './reducers/negotiationsReducer'
 import phraseReducer from './reducers/phraseReducer'
 import bidsReducer from './reducers/bidsReducer'
 import displaynamesReducer from './reducers/displaynamesReducer'
+import noticesReducer from './reducers/noticesReducer'
 
 const reducer = combineReducers({
 	members: membersReducer,
@@ -22,7 +24,9 @@ const reducer = combineReducers({
 	negotiations: negotiationsReducer,
 	phrase: phraseReducer,
 	bids: bidsReducer,
-	displaynames: displaynamesReducer
+	displaynames: displaynamesReducer,
+	notices: noticesReducer,
+	serverTime: timeReducer
 })
 
 const store = createStore(

@@ -14,12 +14,12 @@ const usersReducer = (state = [], action) => {
 	}
 
 	switch(action.type) {
-	case 'ALL_USERS': {
-		const sortedUser = action.data.sort(sortByUsername)
-		return sortedUser
-	}
-	default:
-		return state
+		case 'ALL_USERS': {
+			const sortedUser = action.data.sort(sortByUsername)
+			return sortedUser
+		}
+		default:
+			return state
 	}
 }
 

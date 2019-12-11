@@ -2,11 +2,11 @@ import usersService from '../services/users'
 
 const displaynamesReducer = (state = [], action) => {
 	switch(action.type) {
-	case 'INIT_DISPLAYNAMES': {
-		return action.data
-	}
-	default:
-		return state
+		case 'INIT_DISPLAYNAMES': {
+			return action.data
+		}
+		default:
+			return state
 	}
 }
 

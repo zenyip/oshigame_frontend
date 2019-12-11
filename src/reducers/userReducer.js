@@ -4,17 +4,17 @@ import userService from '../services/users'
 const userReducer = (state = null, action) => {
 
 	switch(action.type) {
-	case 'SET_USER': {
-		return action.data
-	}
-	case 'SET_USER_BY_TOKEN': {
-		return action.data
-	}
-	case 'USER_LOGIN': {
-		return action.data
-	}
-	default:
-		return state
+		case 'SET_USER': {
+			return action.data
+		}
+		case 'SET_USER_BY_TOKEN': {
+			return action.data
+		}
+		case 'USER_LOGIN': {
+			return action.data
+		}
+		default:
+			return state
 	}
 }
 

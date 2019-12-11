@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
 
 const User = (props) => {
-	const { shownUser, members } = props
+	const { shownUser, members} = props
 
 	const headstyle = {
 		paddingTop: "20px"
@@ -20,16 +20,35 @@ const User = (props) => {
 			<div>ADMIN</div> :
 			null
 
-		const oshimenList = (u) => u.oshimens.length > 0 ?
-			u.oshimens.map(m => (
-				<span key={m.id}>
-					<Link to={`/members/${m.id}`}>
-						{m.nickname}
-					</Link>
-					<span> </span>
-				</span>
-			)) :
-			'none'
+		const oshimenList = (u) => {
+			const remainTime = (endTime) => {
+				const endTimeMS = Date.parse(endTime)
+				const currentTimeMS = Date.parse(props.serverTime)
+				const remainTimeMS = endTimeMS - currentTimeMS
+				if (remainTimeMS > 0) {
+					let remainTimeS = Math.floor(remainTimeMS / 1000)
+					const remainHrs = Math.floor(remainTimeS / 3600)
+					remainTimeS = remainTimeS % 3600
+					const remainMins = Math.floor(remainTimeS / 60)
+					const remainS = remainTimeS % 60
+					return `will be back in ${remainHrs} hr ${remainMins} min ${remainS} s`
+				} else {
+					return 'is ready to collect'
+				}
+			}
+
+			return (u.oshimens.length > 0 ?
+				u.oshimens.map(m => (
+					<div key={m.id}>
+						<Link to={`/members/${m.id}`}>
+							{m.nickname}
+						</Link>
+						{m.job ? ` on ${m.job.name} and ${remainTime(m.job.endTime)}` : ' is waiting for assignments'}
+					</div>
+				)) :
+				'none'
+			)
+		}
 
 		const negotiationList = (u) => {
 			if (u.negotiations.length > 0) {
@@ -170,9 +189,10 @@ const User = (props) => {
 				<div>displayname: {shownUser.displayname}</div>
 				<div>assest: {shownUser.assest}</div>
 				{admin(shownUser)}
-				<div>oshimens: {oshimenList(shownUser)} </div>
 				<div>negotiations:</div>
-				<div>{negotiationList(shownUser)} </div>
+				<div>{negotiationList(shownUser)}</div>
+				<div>oshimens:</div>
+				<div>{oshimenList(shownUser)}</div>
 			</div>
 		)
 	} else {
@@ -184,7 +204,8 @@ const mapStateToProps = (state) => {
 	return {
 		members: state.members,
 		displaynames: state.displaynames,
-		token: state.token
+		token: state.token,
+		serverTime: state.serverTime
 	}
 }
 

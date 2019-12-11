@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import TopBids from './TopBids'
 import TopValues from './TopValues'
+import TopPopularity from './TopPopularity'
 import { changePhrase } from '../reducers/phraseReducer'
+import { addNotice, removeNotice, updateNotice } from '../reducers/noticesReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 import { Form, Button, Select, Grid } from 'semantic-ui-react'
@@ -11,6 +13,14 @@ const phraseOptions = phraseList.map(p => {return { key: p, text: p, value: p }}
 
 const Home = (props) => {
 	const [newPhrase, setNewPhrase] = useState(null)
+	const [newNotice, setNewNotice] = useState('')
+	const [shownList, setShownList] = useState('VALUE')
+	
+	const listOptions = [
+		{ key: 'list1', text: 'Most Expensive Members', value: 'VALUE' },
+		{ key: 'list2', text: 'Most Popular Members', value: 'FAN' },
+		{ key: 'list3', text: 'Current Top 10 Bids', value: 'BID' }
+	]
 
 	const phraseChanger = () => {
 		const handlePhraseChange = async (event) => {
@@ -49,20 +59,100 @@ const Home = (props) => {
 		}
 	}
 
-	const notice = () => {
-		const greenText = {
-			color: 'lime'
+	const notices = () => {
+		const noticeList = () => {
+			const handleEditNotice = async (id) => {
+				try {
+					await props.updateNotice(id, newNotice, props.token)
+					setNewNotice('')
+					props.setNotification({ content: `Notice Updated`, colour: 'green' }, 5)
+				} catch (exception) {
+					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+				}
+			}
+			const handleRemoveNotice = async (id) => {
+				try {
+					await props.removeNotice(id, props.token)
+					props.setNotification({ content: `Notice Removed`, colour: 'green' }, 5)
+				} catch (exception) {
+					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+				}
+			}
+			if (props.user) {
+				if (props.user.admin) {
+					return props.notices.map(n => (
+						<div key={n.id}>
+							<Button onClick={() => handleEditNotice(n.id)}>
+								Edit
+							</Button>
+							<Button onClick={() => handleRemoveNotice(n.id)} color='violet'>
+								Remove
+							</Button>
+							{`${props.notices.indexOf(n) + 1}. ${n.content}`}
+						</div>
+					))
+				}
+			}
+			return props.notices.map(n => <div key={n.id}>{`${props.notices.indexOf(n) + 1}. ${n.content}`}</div>)
+		}
+		const noticeForm = () => {
+			const handleNewNotice = async (event) => {
+				event.preventDefault()
+				try {
+					await props.addNotice(newNotice, props.token)
+					setNewNotice('')
+					props.setNotification({ content: `New Notice Posted`, colour: 'green' }, 5)
+				} catch (exception) {
+					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+				}
+			}
+			if (props.user) {
+				if (props.user.admin) {
+					return (
+						<Form onSubmit={handleNewNotice}>
+						<Form.Input
+							label='New/Updated Notice:'
+							placeholder={newNotice}
+							onChange={({ target }) => setNewNotice(target.value)}
+							value={newNotice}
+						/>
+						<Button type="submit" color='pink'>
+							Post New Notice
+						</Button>
+					</Form>
+					)
+				} else {
+					return null
+				}
+			} else {
+				return null
+			}
 		}
 		return (
 			<div>
 				<h3>Current Notes</h3>
-				<div>1. The app is NOT responsive. Please use the app on computers.</div>
-				<div>2. Client side is NOT synchronized witht the server automaticially. Please manually <span style={greenText}>REFRESH</span> the page to obtain the latest data.</div>
+				{noticeList()}
+				{noticeForm()}
 			</div>
 		)
 	}
 
-	const ranking = () => props.phrase === 'negotiation' ? <TopBids /> : <TopValues />
+	const list = () => {
+		switch(shownList) {
+			case 'VALUE': {
+				return <TopValues />
+			}
+			case 'BID': {
+				return <TopBids />
+			}
+			case 'FAN': {
+				return <TopPopularity />
+			}
+			default: {
+				return null
+			}
+		}
+	}
 
 	return (
 		<div>
@@ -71,10 +161,18 @@ const Home = (props) => {
 			{phraseChanger()}
 			<Grid column={2}>
 				<Grid.Column width={8}>
-					{notice()}
+					{notices()}
 				</Grid.Column>
 				<Grid.Column width={8}>
-					{ranking()}
+					<Form.Field
+						control={Select}
+						label='List to Show: '
+						options={listOptions}
+						placeholder='Lists'
+						onChange={(e, data) => setShownList(data.value)}
+						value={shownList}
+					/>
+					{list()}
 				</Grid.Column>
 			</Grid>
 		</div>
@@ -83,7 +181,9 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
+		serverTime: state.serverTime,
 		phrase: state.phrase,
+		notices: state.notices,
 		user: state.user,
 		token: state.token
 	}
@@ -92,6 +192,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
 	setNotification,
 	changePhrase,
+	addNotice,
+	removeNotice,
+	updateNotice
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

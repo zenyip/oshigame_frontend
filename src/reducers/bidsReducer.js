@@ -8,12 +8,12 @@ const bidsReducer = (state = [], action) => {
 	}
 
 	switch(action.type) {
-	case 'ALL_BIDS': {
-		const sortedBids = action.data.sort(sortByBid)
-		return sortedBids
-	}
-	default:
-		return state
+		case 'ALL_BIDS': {
+			const sortedBids = action.data.sort(sortByBid)
+			return sortedBids
+		}
+		default:
+			return state
 	}
 }
 

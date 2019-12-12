@@ -14,7 +14,7 @@ const phraseOptions = phraseList.map(p => {return { key: p, text: p, value: p }}
 const Home = (props) => {
 	const [newPhrase, setNewPhrase] = useState(null)
 	const [newNotice, setNewNotice] = useState('')
-	const [shownList, setShownList] = useState('VALUE')
+	const [shownList, setShownList] = useState('FAN')
 	
 	const listOptions = [
 		{ key: 'list1', text: 'Most Expensive Members', value: 'VALUE' },
@@ -159,19 +159,21 @@ const Home = (props) => {
 			<h2>Welcome to Oshigame</h2>
 			<h3>phrase: {props.phrase} </h3>
 			{phraseChanger()}
-			<Grid column={2}>
-				<Grid.Column width={8}>
+			<Grid stackable columns={16}>
+				<Grid.Column mobile={16} tablet={8} computer={8}>
 					{notices()}
 				</Grid.Column>
-				<Grid.Column width={8}>
-					<Form.Field
-						control={Select}
-						label='List to Show: '
-						options={listOptions}
-						placeholder='Lists'
-						onChange={(e, data) => setShownList(data.value)}
-						value={shownList}
-					/>
+				<Grid.Column mobile={16} tablet={8} computer={8}>
+					<Grid.Row>
+						<Form.Field
+							control={Select}
+							label='List to Show: '
+							options={listOptions}
+							placeholder='Lists'
+							onChange={(e, data) => setShownList(data.value)}
+							value={shownList}
+						/>
+					</Grid.Row>
 					{list()}
 				</Grid.Column>
 			</Grid>

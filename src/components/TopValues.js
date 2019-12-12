@@ -29,13 +29,11 @@ const TopValues = (props) => {
 			topMembers = topMembers.sort(sortFunctionByValue).slice(0, 10)
 			return topMembers.map(m => (
 				<div key={m.id}>
-					<div>
-						{`${topMembers.indexOf(m) + 1}. `}
-						<Link to={`/members/${m.id}`} onMouseOver={()=>showPic(m)} onMouseOut={hidePic}>
-							{m.nickname}
-						</Link>
-						{` at ${m.value}`}
-					</div>
+					{`${topMembers.indexOf(m) + 1}. `}
+					<Link to={`/members/${m.id}`} onMouseOver={()=>showPic(m)} onMouseOut={hidePic}>
+						{m.nickname}
+					</Link>
+					{` at ${m.value}`}
 				</div>
 			))
 		} else {
@@ -52,11 +50,11 @@ const TopValues = (props) => {
 	return (
 		<div>
 			<h3>Most Expensive Members</h3>
-			<Grid column={2}>
-				<Grid.Column width={6}>
+			<Grid>
+				<Grid.Column mobile={16} tablet={16} computer={8}>
 					{ membersList() }
 				</Grid.Column>
-				<Grid.Column>
+				<Grid.Column only='computer'>
 					{ memberPic() }
 				</Grid.Column>
 			</Grid>

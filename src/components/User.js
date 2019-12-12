@@ -36,6 +36,16 @@ const User = (props) => {
 					return 'is ready to collect'
 				}
 			}
+			const jobState = (m) => {
+				if (m.job) {
+					if (m.job.name) {
+						return (
+							<span> is on {m.job.name} <br /> >> and {remainTime(m.job.endTime)} </span>
+						)
+					}
+				}
+				return ' is waiting for assignments'
+			}
 
 			return (u.oshimens.length > 0 ?
 				u.oshimens.map(m => (
@@ -43,7 +53,7 @@ const User = (props) => {
 						<Link to={`/members/${m.id}`}>
 							{m.nickname}
 						</Link>
-						{m.job ? ` on ${m.job.name} and ${remainTime(m.job.endTime)}` : ' is waiting for assignments'}
+						{jobState(m)}
 					</div>
 				)) :
 				'none'

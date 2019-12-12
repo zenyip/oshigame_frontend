@@ -1,20 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Logout from './Logout'
-import { Grid } from 'semantic-ui-react'
+import { Menu as UIMenu, Grid } from 'semantic-ui-react'
+
+const style = {
+	marginBottom: "20px"
+}
 
 const CurrentUser = (props) => {
 	if (props.user) {
 		return (
-			<Grid columns={2}>
-				<Grid.Column width={9} verticalAlign='middle'>
-					<div>{props.user.displayname}</div>
-					<div>assest: {props.user.assest}</div>
-				</Grid.Column>
-				<Grid.Column width={1}>
-					<Logout />
-				</Grid.Column>
-			</Grid>
+			<UIMenu style={style} fluid widths={1}>
+				<UIMenu.Item>
+					<Grid>
+						<Grid.Column verticalAlign='middle'>
+							<div>{props.user.displayname}</div>
+							<div>Money: ${props.user.assest}</div>
+						</Grid.Column>
+					</Grid>
+				</UIMenu.Item>
+			</UIMenu>
 		)
 	} else {
 		return (

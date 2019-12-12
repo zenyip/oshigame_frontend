@@ -213,6 +213,7 @@ const Member = (props) => {
 			try {
 				const assignedMember = await jobService.assignJob(shownMember.id, assignment, props.token)
 				await props.initializeMembers()
+				await props.setUserByToken(props.token)
 				props.setNotification({ content: `${assignedMember.job.name} is assigned.`, colour: 'green' }, 5)
 				setAssignemt('')
 			} catch (exception) {
@@ -236,6 +237,7 @@ const Member = (props) => {
 			try {
 				const collectedRewards = await jobService.collectJob(shownMember.id, props.token)
 				await props.initializeMembers()
+				await props.setUserByToken(props.token)
 				props.setNotification({ content: `gained ${collectedRewards.fanReward} fans and $${collectedRewards.moneyReward}`, colour: 'green' }, 5)
 			} catch (exception) {
 				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
@@ -279,13 +281,93 @@ const Member = (props) => {
 			<div>
 				<h2>{shownMember.name_j}</h2>
 				<div>{shownMember.name_k.firstname}　{shownMember.name_k.lastname}</div>
-				<Grid columns={2}>
-					<Grid.Row>
-						<Grid.Column width={5}>
+				<Grid>
+					<Grid.Row columns={1} only='mobile'>
+						<Grid.Column>
 							<img src={shownMember.pic_link} alt="profile pic" />
 						</Grid.Column>
 						<Grid.Column>
-							<Table>
+							<Table striped columns={2} unstackable>
+								<Table.Body>
+									<Table.Row>
+										<Table.Cell>Name:</Table.Cell>
+										<Table.Cell>{shownMember.name_e.firstname} {shownMember.name_e.lastname}</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell>Nickname:</Table.Cell>
+										<Table.Cell>{shownMember.nickname}</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell>Date Of Birth:</Table.Cell>
+										<Table.Cell>{bday}</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell>Hometown:</Table.Cell>
+										<Table.Cell>{shownMember.hometown}</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell>Team:</Table.Cell>
+										<Table.Cell>{shownMember.team.join(" and ")}</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell>Generation:</Table.Cell>
+										<Table.Cell>{shownMember.generation.name}</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell>Member Status:</Table.Cell>
+										<Table.Cell>{shownMember.current ? 'Current Member' : 'Graduate'} {shownMember.kks ? '(Kenkyosen)' : ''}</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell>Value:</Table.Cell>
+										<Table.Cell>{shownMember.value}</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell>Salary:</Table.Cell>
+										<Table.Cell>{Math.floor(shownMember.value/10)}/hr</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell>Agency:</Table.Cell>
+										<Table.Cell>{shownMember.agency ? shownMember.agency.displayname : 'Free' }</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell>Fanbase Size:</Table.Cell>
+										<Table.Cell>{shownMember.fanSize}</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell>Current Job:</Table.Cell>
+										<Table.Cell>{shownMember.job ? shownMember.job.name : 'None'}</Table.Cell>
+									</Table.Row>
+									<Table.Row>
+										<Table.Cell />
+										<Table.Cell>{shownMember.job ? remainTime(shownMember.job.endTime) : null}</Table.Cell>
+									</Table.Row>
+								</Table.Body>
+							</Table>
+							<Form onSubmit={handleAssign} style={assignmentFormStyle}>
+								<Form.Field
+									control={Select}
+									label='Job Assignment: '
+									options={assignmentOptions}
+									placeholder='Job Assignment'
+									onChange={(e, data) => setAssignemt(data.value)}
+									value={assignment}
+								/>
+								<Button type="submit">Assign</Button>
+							</Form>
+							<Button onClick={handleAssignmentCollect} style={assignmentCollectStyle} color='pink'>
+								Collect Assignment Rewards
+							</Button>
+							<Button onClick={handleAssignmentCancel} style={assignmentCancelStyle} color='violet'>
+								Cancel Assignment
+							</Button>
+						</Grid.Column>
+					</Grid.Row>
+					<Grid.Row columns={16} only='computer tablet'>
+						<Grid.Column computer={5} tablet={7}>
+							<img src={shownMember.pic_link} alt="profile pic" />
+						</Grid.Column>
+						<Grid.Column computer={11} tablet={9}>
+							<Table striped>
 								<Table.Body>
 									<Table.Row>
 										<Table.Cell>Name:</Table.Cell>

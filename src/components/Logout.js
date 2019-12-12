@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 import { setToken } from '../reducers/tokenReducer'
 import { setUser } from '../reducers/userReducer'
-import { withRouter } from 'react-router-dom'
-import { Button } from 'semantic-ui-react'
+import { Link, withRouter } from 'react-router-dom'
+import { Responsive, Icon } from 'semantic-ui-react'
 
 const LogoutNoHistory = (props) => {
 	const handleLogout = () => {
@@ -15,7 +15,17 @@ const LogoutNoHistory = (props) => {
 		props.history.push('/')
 	}
 
-	return <Button onClick={handleLogout}>logout</Button>
+	return (
+		<React.Fragment>
+			<Responsive {...Responsive.onlyMobile}>
+				<Link onClick={handleLogout} to="/"><Icon name='sign out' /></Link>
+			</Responsive>
+			<Responsive minWidth={Responsive.onlyTablet.minWidth}>
+				<Icon name='sign out' onClick={handleLogout} />
+				<Link onClick={handleLogout} to='/'>Logout</Link>
+			</Responsive>
+		</React.Fragment>
+	)
 }
 
 const mapDispatchToProps = {

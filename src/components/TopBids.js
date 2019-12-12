@@ -52,11 +52,11 @@ const TopBids = (props) => {
 	return (
 		<div>
 			<h3>Current Top 10 Bids</h3>
-			<Grid column={2}>
-				<Grid.Column width={6}>
+			<Grid>
+				<Grid.Column mobile={16} tablet={16} computer={8}>
 					{ bidsList() }
 				</Grid.Column>
-				<Grid.Column>
+				<Grid.Column only='computer'>
 					{ memberPic() }
 				</Grid.Column>
 			</Grid>

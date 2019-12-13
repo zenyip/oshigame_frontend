@@ -14,6 +14,7 @@ const Member = (props) => {
 	const [offer, setOffer] = useState('')
 	const [payrise, setPayrise] = useState('')
 	const [forceTradeConfirmOpen, setForceTradeConfirmOpen] = useState(false)
+	const [lateSignConfirmOpen, setLateSignConfirmOpen] = useState(false)
 	const [releaseConfirmOpen, setReleaseConfirmOpen] = useState(false)
 	const [assignment, setAssignemt] = useState('')
 	const [collectable, setCollectable] = useState(false)
@@ -33,6 +34,7 @@ const Member = (props) => {
 	let payriseFormStyle = { display: 'none' }
 	let releaseButtonStyle = { display: 'none' }
 	let assignmentFormStyle = { display: 'none' }
+	let lateSignButtonStyle = { display: 'none' }
 	let assignmentCancelStyle = { display: 'none' }
 	let assignmentCollectStyle = { display: 'none' }
 
@@ -40,12 +42,14 @@ const Member = (props) => {
 	let upperLimit = null
 	let forceTradePrice = null
 	let releasePrice = null
+	let lateSignPrice = null
 
 	if (shownMember) {
 		lowerLimit = Math.floor(shownMember.value*0.8)
 		upperLimit = Math.floor(shownMember.value*1.3)
 		forceTradePrice = upperLimit + 1
 		releasePrice = Math.floor(shownMember.value*0.5)
+		lateSignPrice = Math.floor(shownMember.value*1.2)
 	}
 
 	if (shownMember && props.user) {
@@ -63,6 +67,10 @@ const Member = (props) => {
 						assignmentCancelStyle = { display: 'inline' }
 					}
 				}
+			}
+		} else {
+			if (props.phrase !== 'negotiation' && props.user.oshimens.length < 3) {
+				lateSignButtonStyle = { display: 'inline' }
 			}
 		}
 		if (props.phrase === 'negotiation') {
@@ -136,6 +144,28 @@ const Member = (props) => {
 			setForceTradeConfirmOpen(false)
 		}
 
+		const handleLateSignCancel = () => {
+			setLateSignConfirmOpen(false)
+		}
+	
+		const handleLateSignConfirm = async () => {
+			try {
+				const newLateSign = {
+					memberId: shownMember.id,
+					bid: lateSignPrice,
+					tradeType: 'late',
+					recipient: shownMember.agency
+				}
+				await negotiationsService.lateSign(newLateSign, props.token)
+				await props.setUserByToken(props.token)
+				await props.initializeMembers()
+				props.setNotification({ content: `late signed ${shownMember.name_j} at $${lateSignPrice}. `, colour: 'green' }, 5)
+			} catch (exception) {
+				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+			}
+			setLateSignConfirmOpen(false)
+		}
+
 		const handleReleaseCancel = () => {
 			setReleaseConfirmOpen(false)
 		}
@@ -204,6 +234,11 @@ const Member = (props) => {
 			setReleaseConfirmOpen(true)
 		}
 
+		const handleLateSign = async (event) => {
+			event.preventDefault()
+			setLateSignConfirmOpen(true)
+		}
+
 		const handleAssign = async (event) => {
 			event.preventDefault()
 			if (!assignment) {
@@ -213,9 +248,10 @@ const Member = (props) => {
 			try {
 				const assignedMember = await jobService.assignJob(shownMember.id, assignment, props.token)
 				await props.initializeMembers()
+				setAssignemt('')
+				setCollectable(false)
 				await props.setUserByToken(props.token)
 				props.setNotification({ content: `${assignedMember.job.name} is assigned.`, colour: 'green' }, 5)
-				setAssignemt('')
 			} catch (exception) {
 				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
 			}
@@ -472,6 +508,9 @@ const Member = (props) => {
 						Confirm Pay Rise
 					</Button>
 				</Form>
+				<Button onClick={handleLateSign} style={lateSignButtonStyle} color='pink'>
+					Late Sign at ${lateSignPrice}
+				</Button>
 				<Button onClick={handleRelease} style={releaseButtonStyle} color='violet'>
 					Release
 				</Button>
@@ -483,6 +522,12 @@ const Member = (props) => {
 					content={`Confirm to force trade ${shownMember.nickname} at ${forceTradePrice} ?`}
 					onCancel={handleForceTradeCancel}
 					onConfirm={handleForceTradeConfirm}
+				/>
+				<Confirm
+					open={lateSignConfirmOpen}
+					content={`Confirm to late sign ${shownMember.nickname} at ${lateSignPrice} ?`}
+					onCancel={handleLateSignCancel}
+					onConfirm={handleLateSignConfirm}
 				/>
 				<Confirm
 					open={releaseConfirmOpen}

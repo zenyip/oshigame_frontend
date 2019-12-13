@@ -60,6 +60,15 @@ const applyForceTrade = async (newForceTrade, token) => {
 	return response.data
 }
 
+const lateSign = async (newLateSign, token) => {
+	const config = {
+		headers: { Authorization: `bearer ${token}` },
+	}
+	const data = newLateSign
+	const response = await axios.post(baseUrl, data, config)
+	return response.data
+}
+
 const memberPayrise = async (payriseBody, token) => {
 	const config = {
 		headers: { Authorization: `bearer ${token}` },
@@ -87,4 +96,16 @@ const settle = async (token) => {
 	return response.data
 }
 
-export default { getAll, getBids, settle, placeBid, sendOffer, acceptOffer, rejectOffer, applyForceTrade, releaseMember, memberPayrise }
+export default {
+	getAll,
+	getBids,
+	settle,
+	placeBid,
+	sendOffer,
+	acceptOffer,
+	rejectOffer,
+	applyForceTrade,
+	lateSign,
+	releaseMember,
+	memberPayrise
+}

@@ -34,6 +34,9 @@ const hometownOptions = hometownList.map(p => {return { key: p, text: p, value: 
 let agencyList = ['All Agency', 'Not Free', 'Free']
 let agencyOptions = agencyList.map(a => {return { key: a, text: a, value: a }})
 
+const sortList = ['Default', 'Team', 'Name (Katakana)', 'Name (English)', 'Generation', 'Hometown', 'Value', 'Fan Size']
+const sortOptions = sortList.map(m => {return { key: m, text: m, value: m }})
+
 const Members = props => {
 
 	const [teamFilter, setTeamFilter] = useState('All Teams')
@@ -41,6 +44,7 @@ const Members = props => {
 	const [hometownFilter, setHometownFilter] = useState('Any Hometown')
 	const [agencyFilter, setAgencyFilter] = useState('All Agency')
 	const [hoverMember, setHoverMember] = useState(null)
+	const [currentSort, setCurrentSort] = useState('Default')
 
 	const onHover = (member) => {
 		setHoverMember(member)
@@ -63,7 +67,53 @@ const Members = props => {
 			setAgencyFilter('All Agency')
 		}
 
-        const memberSpan = () => {
+		const doSort = (method) => {
+			switch(method) {
+				case 'Default':{
+					props.sortMembersByDefault()
+					setCurrentSort(method)
+					break
+				}
+				case 'Team':{
+					props.sortMembersByTeam()
+					setCurrentSort(method)
+					break
+				}
+				case 'Name (Katakana)':{
+					props.sortMembersByKatakana()
+					setCurrentSort(method)
+					break
+				}
+				case 'Name (English)':{
+					props.sortMembersByEnglishName()
+					setCurrentSort(method)
+					break
+				}
+				case 'Generation':{
+					props.sortMembersByGen()
+					setCurrentSort(method)
+					break
+				}
+				case 'Hometown':{
+					props.sortMembersByHometown()
+					setCurrentSort(method)
+					break
+				}
+				case 'Value':{
+					props.sortMembersByValue()
+					setCurrentSort(method)
+					break
+				}
+				case 'Fan Size':{
+					props.sortMembersByFanSize()
+					setCurrentSort(method)
+					break
+				}
+				default: {}
+			}
+		}
+
+        const memberSpan = (s) => {
 			const filteringByAgency = (members, filter) => {
 				switch(filter) {
 					case 'Under Your Agency':{
@@ -120,10 +170,10 @@ const Members = props => {
 				return ({
 					display: 'block',
 					opacity: opacity,
-					borderTop: `5px solid ${teamColor1}`,
-					borderLeft: `5px solid ${teamColor1}`,
-					borderBottom: `5px solid ${teamColor2}`,
-					borderRight: `5px solid ${teamColor2}`
+					borderTop: `${s}px solid ${teamColor1}`,
+					borderLeft: `${s}px solid ${teamColor1}`,
+					borderBottom: `${s}px solid ${teamColor2}`,
+					borderRight: `${s}px solid ${teamColor2}`
 				})
 			}
 			const hoverText = (memberId) => {
@@ -183,12 +233,12 @@ const Members = props => {
 		return (
 			<div>
 				<h2>Members</h2>
-				<Grid>
-					<Grid.Row>
-						<Grid.Column width={2} verticalAlign='middle'>
+				<Grid columns={16}>
+					<Grid.Row only='computer tablet'>
+						<Grid.Column tablet={4} computer={2} verticalAlign='middle'>
 							Sorting by :
 						</Grid.Column>
-						<Grid.Column width={14}>
+						<Grid.Column tablet={12} computer={14}>
 							<Button onClick={props.sortMembersByDefault} content='Default'/>
 							<Button onClick={props.sortMembersByTeam} content='Team'/>
 							<Button onClick={props.sortMembersByKatakana} content='Name (Katakana)'/>
@@ -199,11 +249,23 @@ const Members = props => {
 							<Button onClick={props.sortMembersByFanSize} content='Fan Size'/>
 						</Grid.Column>
 					</Grid.Row>
+					<Grid.Row only='mobile'>
+					<Grid.Column width={5} verticalAlign='middle'>
+							Sorting by :
+						</Grid.Column>
+						<Grid.Column width={11}>
+							<Select
+								options={sortOptions}
+								onChange={(e, data) => doSort(data.value)}
+								value={currentSort}
+							/>
+						</Grid.Column>
+					</Grid.Row>
 					<Grid.Row>
-						<Grid.Column width={2} verticalAlign='middle'>
+						<Grid.Column mobile={5} tablet={4} computer={2} verticalAlign='middle'>
 							Filters :
 						</Grid.Column>
-						<Grid.Column width={14}>
+						<Grid.Column mobile={11} tablet={12} computer={14}>
 							<Select
 								options={teamOptions}
 								onChange={(e, data) => setTeamFilter(data.value)}
@@ -229,7 +291,14 @@ const Members = props => {
 					</Grid.Row>
 				</Grid>
 				<Grid columns={5}>
-					{memberSpan()}
+					<Grid.Row only='tablet computer'>
+						{memberSpan(5)}
+					</Grid.Row>
+				</Grid>
+				<Grid columns={3}>
+					<Grid.Row only='mobile'>
+						{memberSpan(3)}
+					</Grid.Row>
 				</Grid>
 			</div>
 		)

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import TopBids from './TopBids'
 import TopValues from './TopValues'
 import TopPopularity from './TopPopularity'
+import Banner from './Banner'
 import { changePhrase } from '../reducers/phraseReducer'
 import { addNotice, removeNotice, updateNotice } from '../reducers/noticesReducer'
 import { setNotification } from '../reducers/notificationReducer'
@@ -157,6 +158,7 @@ const Home = (props) => {
 	return (
 		<div>
 			<h2>Welcome to Oshigame</h2>
+			<Banner />
 			<h3>phrase: {props.phrase} </h3>
 			{phraseChanger()}
 			<Grid stackable columns={16}>

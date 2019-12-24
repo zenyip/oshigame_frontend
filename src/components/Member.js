@@ -57,14 +57,20 @@ const Member = (props) => {
 			if (shownMember.agency.displayname.toString().includes(props.user.displayname)) {
 				releaseButtonStyle = { display: 'inline' }
 				payriseFormStyle = { display: 'inline' }
+				if (collectable) {
+					assignmentCollectStyle = { display: 'inline' }
+				}
+				if (shownMember.job) {
+					assignmentCancelStyle = { display: 'inline' }
+				}
 				if (props.phrase === 'general') {
 					if (!shownMember.job) {
 						assignmentFormStyle = { display: null }
-					} else {
-						if (collectable) {
-							assignmentCollectStyle = { display: 'inline' }
-						}
-						assignmentCancelStyle = { display: 'inline' }
+					}
+				}
+				if (props.phrase === 'negotiation') {
+					if (!shownMember.agency.displayname.toString().includes(props.user.displayname)){
+						offerFormStyle = { display: 'inline' }
 					}
 				}
 			}
@@ -72,14 +78,8 @@ const Member = (props) => {
 			if (props.phrase !== 'negotiation' && props.user.oshimens.length < 3) {
 				lateSignButtonStyle = { display: 'inline' }
 			}
-		}
-		if (props.phrase === 'negotiation') {
-			if (!shownMember.agency) {
+			if (props.phrase === 'negotiation') {
 				bidFormStyle = { display: 'inline' }
-			} else {
-				if (!shownMember.agency.displayname.toString().includes(props.user.displayname)){
-					offerFormStyle = { display: 'inline' }
-				}
 			}
 		}
 	}
@@ -273,6 +273,7 @@ const Member = (props) => {
 			try {
 				const collectedRewards = await jobService.collectJob(shownMember.id, props.token)
 				await props.initializeMembers()
+				setCollectable(false)
 				await props.setUserByToken(props.token)
 				props.setNotification({ content: `gained ${collectedRewards.fanReward} fans and $${collectedRewards.moneyReward}`, colour: 'green' }, 5)
 			} catch (exception) {
@@ -354,6 +355,10 @@ const Member = (props) => {
 										<Table.Cell>{shownMember.current ? 'Current Member' : 'Graduate'} {shownMember.kks ? '(Kenkyosen)' : ''}</Table.Cell>
 									</Table.Row>
 									<Table.Row>
+										<Table.Cell>Fanbase Size:</Table.Cell>
+										<Table.Cell>{shownMember.fanSize}</Table.Cell>
+									</Table.Row>
+									<Table.Row>
 										<Table.Cell>Value:</Table.Cell>
 										<Table.Cell>{shownMember.value}</Table.Cell>
 									</Table.Row>
@@ -366,8 +371,8 @@ const Member = (props) => {
 										<Table.Cell>{shownMember.agency ? shownMember.agency.displayname : 'Free' }</Table.Cell>
 									</Table.Row>
 									<Table.Row>
-										<Table.Cell>Fanbase Size:</Table.Cell>
-										<Table.Cell>{shownMember.fanSize}</Table.Cell>
+										<Table.Cell>Tradability:</Table.Cell>
+										<Table.Cell>{shownMember.tradable ? 'Tradable' : 'Untradable' }</Table.Cell>
 									</Table.Row>
 									<Table.Row>
 										<Table.Cell>Current Job:</Table.Cell>
@@ -426,8 +431,8 @@ const Member = (props) => {
 									<Table.Row>
 										<Table.Cell>Member Status:</Table.Cell>
 										<Table.Cell>{shownMember.current ? 'Current Member' : 'Graduate'} {shownMember.kks ? '(Kenkyosen)' : ''}</Table.Cell>
-										<Table.Cell />
-										<Table.Cell />
+										<Table.Cell>Fanbase Size:</Table.Cell>
+										<Table.Cell>{shownMember.fanSize}</Table.Cell>
 									</Table.Row>
 									<Table.Row>
 										<Table.Cell>Value:</Table.Cell>
@@ -438,8 +443,8 @@ const Member = (props) => {
 									<Table.Row>
 										<Table.Cell>Agency:</Table.Cell>
 										<Table.Cell>{shownMember.agency ? shownMember.agency.displayname : 'Free' }</Table.Cell>
-										<Table.Cell>Fanbase Size:</Table.Cell>
-										<Table.Cell>{shownMember.fanSize}</Table.Cell>
+										<Table.Cell>Tradability:</Table.Cell>
+										<Table.Cell>{shownMember.tradable ? 'Tradable' : 'Untradable' }</Table.Cell>
 									</Table.Row>
 									<Table.Row>
 										<Table.Cell>Current Job:</Table.Cell>

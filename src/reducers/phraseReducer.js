@@ -18,7 +18,7 @@ export const checkPhrase = () => {
 		const phrase = await phraseService.get()
 		dispatch({
 			type: 'GET_PHRASE',
-			data: phrase[0].phrase
+			data: phrase
 		})
 	}
 }

@@ -3,17 +3,17 @@ import TopBids from './TopBids'
 import TopValues from './TopValues'
 import TopPopularity from './TopPopularity'
 import Banner from './Banner'
-import { changePhrase } from '../reducers/phraseReducer'
+//import { changePhrase } from '../reducers/phraseReducer'
 import { addNotice, removeNotice, updateNotice } from '../reducers/noticesReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 import { Form, Button, Select, Grid } from 'semantic-ui-react'
 
-const phraseList = ['general', 'negotiation']
-const phraseOptions = phraseList.map(p => {return { key: p, text: p, value: p }})
+//const phraseList = ['general', 'negotiation']
+//const phraseOptions = phraseList.map(p => {return { key: p, text: p, value: p }})
 
 const Home = (props) => {
-	const [newPhrase, setNewPhrase] = useState(null)
+	//const [newPhrase, setNewPhrase] = useState(null)
 	const [newNotice, setNewNotice] = useState('')
 	const [shownList, setShownList] = useState('FAN')
 	
@@ -23,7 +23,7 @@ const Home = (props) => {
 		{ key: 'list3', text: 'Current Top 10 Bids', value: 'BID' }
 	]
 
-	const phraseChanger = () => {
+	/*const phraseChanger = () => {
 		const handlePhraseChange = async (event) => {
 			event.preventDefault()
 			try {
@@ -58,7 +58,7 @@ const Home = (props) => {
 		} else {
 			return null
 		}
-	}
+	}*/
 
 	const notices = () => {
 		const noticeList = () => {
@@ -160,7 +160,7 @@ const Home = (props) => {
 			<h2>Welcome to Oshigame</h2>
 			<Banner />
 			<h3>phrase: {props.phrase} </h3>
-			{phraseChanger()}
+			{/*phraseChanger()*/}
 			<Grid stackable columns={16}>
 				<Grid.Column mobile={16} tablet={8} computer={8}>
 					{notices()}
@@ -195,7 +195,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
 	setNotification,
-	changePhrase,
+	//changePhrase,
 	addNotice,
 	removeNotice,
 	updateNotice

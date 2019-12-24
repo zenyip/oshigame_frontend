@@ -7,7 +7,7 @@ import Banner from './Banner'
 import { addNotice, removeNotice, updateNotice } from '../reducers/noticesReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
-import { Form, Button, Select, Grid } from 'semantic-ui-react'
+import { Form, Button, Select, Grid, List } from 'semantic-ui-react'
 
 //const phraseList = ['general', 'negotiation']
 //const phraseOptions = phraseList.map(p => {return { key: p, text: p, value: p }})
@@ -94,7 +94,11 @@ const Home = (props) => {
 					))
 				}
 			}
-			return props.notices.map(n => <div key={n.id}>{`${props.notices.indexOf(n) + 1}. ${n.content}`}</div>)
+			return (
+				<List ordered>
+					{props.notices.map(n => <List.Item key={n.id}>{n.content}</List.Item>)}
+				</List>
+			)
 		}
 		const noticeForm = () => {
 			const handleNewNotice = async (event) => {

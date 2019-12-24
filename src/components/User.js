@@ -5,7 +5,7 @@ import { initializeMembers } from '../reducers/membersReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Button } from 'semantic-ui-react'
+import { Button, Loader } from 'semantic-ui-react'
 
 const User = (props) => {
 	const { shownUser, members} = props
@@ -206,7 +206,7 @@ const User = (props) => {
 			</div>
 		)
 	} else {
-		return <div>loading...</div>
+		return <Loader active>Loading</Loader>
 	}
 }
 

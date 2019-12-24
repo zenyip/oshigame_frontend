@@ -1,6 +1,7 @@
 import React from 'react'
 import User from './User'
 import { connect } from 'react-redux'
+import { Loader } from 'semantic-ui-react'
 
 const Profile = (props) => {
 	const { user, members } = props
@@ -13,7 +14,7 @@ const Profile = (props) => {
 			</div>
 		)
 	} else {
-		return <div>loading...</div>
+		return <Loader active>Loading</Loader>
 	}
 }
 

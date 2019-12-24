@@ -2,6 +2,7 @@ import React, { useEffect }  from 'react'
 import User from './User'
 import { allUsers } from '../reducers/usersReducer'
 import { connect } from 'react-redux'
+import { Loader } from 'semantic-ui-react'
 
 const Users = (props) => {
 	const {token, user, users, members, allUsers } = props
@@ -23,7 +24,7 @@ const Users = (props) => {
 				</div>
 			))
 		} else {
-			return <div>loading...</div>
+			return <Loader active>Loading</Loader>
 		}
 	}
 

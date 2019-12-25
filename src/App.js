@@ -23,7 +23,7 @@ import {
 	BrowserRouter as Router,
 	Route, Redirect
 } from 'react-router-dom'
-import { Container } from 'semantic-ui-react'
+import { Container, Segment } from 'semantic-ui-react'
 
 
 const App = (props) => {
@@ -62,7 +62,7 @@ const App = (props) => {
 	return (
 		<Container>
 			<Router>
-				<div>
+				<Segment basic>
 					<Route path="/" render={() =>
 						<div>
 							<Menu />
@@ -99,7 +99,7 @@ const App = (props) => {
 					<Route exact path="/new_member" render={() =>
 						<MemberForm />
 					} />
-				</div>
+				</Segment>
 			</Router>
 		</Container>
 	)

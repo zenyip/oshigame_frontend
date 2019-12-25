@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Message } from 'semantic-ui-react'
+import { Dimmer, Message } from 'semantic-ui-react'
 
 const Notification = (props) => {
 
@@ -8,8 +8,12 @@ const Notification = (props) => {
 		return null
 	}
 
+	const active = props.notification.content ? true : false
+
 	return (
-		<Message color={props.notification.colour}>{props.notification.content}</Message>
+		<Dimmer active={active} page>
+			<Message color={props.notification.colour}>{props.notification.content}</Message>
+		</Dimmer>
 	)
 }
 

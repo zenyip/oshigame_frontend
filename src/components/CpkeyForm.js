@@ -12,9 +12,9 @@ const CpkeyForm = (props) => {
 		try {
 			const addedKey = await props.addNewKey(newCpkey, props.token)
 			setNewCpkey('')
-			props.setNotification({ content: `key "${addedKey.key}" is added`, colour: 'green' }, 5)
+			props.setNotification({ content: `key "${addedKey.key}" is added`, colour: 'green' })
 		} catch (exception) {
-			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 		}
 	}
 

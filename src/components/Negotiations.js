@@ -38,10 +38,10 @@ const Negotiations = (props) => {
 	const handleSettle = async () => {
 		try {
 			await negotiationsService.settle(props.token)
-			props.setNotification({ content: 'negotiations have been settled', colour: 'green' }, 5)
+			props.setNotification({ content: 'negotiations have been settled', colour: 'green' })
 			clearNegotiations()
 		} catch (exception) {
-			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 		}
 	}
 

@@ -15,11 +15,11 @@ const SignUpNoHistory = (props) => {
 	const submit = async (event) => {
 		event.preventDefault()
 		if (!username || !displayname || !password_1 || !password_2 || !createkey) {
-			props.setNotification({ content: 'one or more entries missing', colour: 'red' }, 5)
+			props.setNotification({ content: 'one or more entries missing', colour: 'red' })
 			return 
 		}
 		if (password_1 !== password_2) {
-			props.setNotification({ content: 'passwords have to be the same', colour: 'red' }, 5)
+			props.setNotification({ content: 'passwords have to be the same', colour: 'red' })
 			return
 		}
 		try {
@@ -36,9 +36,9 @@ const SignUpNoHistory = (props) => {
 			setPassword_2('')
 			setCreatekey('')
 			props.history.push('/login')
-			props.setNotification({ content: `account for ${createdUser.username} is created successfully`, colour: 'green' }, 5)
+			props.setNotification({ content: `account for ${createdUser.username} is created successfully`, colour: 'green' })
 		} catch (exception) {
-			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 		}
 	}
 

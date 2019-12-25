@@ -15,8 +15,14 @@ const notificationReducer = (state = initialState, action) => {
 }
 
 export const setNotification = (message, time) => {
+	let ms = 2000
+	if (time === 'long') {
+		ms = 3000
+	}
+	if (time === 'short') {
+		ms = 1000
+	}
 	return async dispatch => {
-		const ms = time*1000
 		dispatch({
 			type: 'NOTIFY',
 			data: { content: message.content, colour: message.colour }

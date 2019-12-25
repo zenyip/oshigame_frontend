@@ -81,9 +81,9 @@ const MemberForm = (props) => {
 			}
 			const addedMember = await props.addNewMember(newMember, props.token)
 			resetForm()
-			props.setNotification({ content: `member "${addedMember.name_j}" is added`, colour: 'green' }, 5)
+			props.setNotification({ content: `member "${addedMember.name_j}" is added`, colour: 'green' })
 		} catch (exception) {
-			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 		}
 	}
 

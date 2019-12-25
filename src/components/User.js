@@ -145,18 +145,18 @@ const User = (props) => {
 							await negotiationsService.acceptOffer(negotiationId, props.token)
 							await props.setUserByToken(props.token)
 							await props.initializeMembers()
-							props.setNotification({ content: 'offer is accepted', colour: 'green' }, 5)
+							props.setNotification({ content: 'offer is accepted', colour: 'green' })
 						} catch (exception) {
-							props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+							props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 						}
 					}
 					const handleReject = async (negotiationId) => {
 						try {
 							await negotiationsService.rejectOffer(negotiationId, props.token)
 							await props.setUserByToken(props.token)
-							props.setNotification({ content: 'offer is rejected', colour: 'green' }, 5)
+							props.setNotification({ content: 'offer is rejected', colour: 'green' })
 						} catch (exception) {
-							props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+							props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 						}
 					}
 					if (receivedOfferList.length === 0) {

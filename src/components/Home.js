@@ -32,9 +32,9 @@ const Home = (props) => {
 				}
 				const changedPhrase = await props.changePhrase(phrase, props.token)
 				setNewPhrase(null)
-				props.setNotification({ content: `phrase is changed to "${changedPhrase.phrase}"`, colour: 'green' }, 5)
+				props.setNotification({ content: `phrase is changed to "${changedPhrase.phrase}"`, colour: 'green' })
 			} catch (exception) {
-				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 			}
 		}
 		if (props.user) {
@@ -66,17 +66,17 @@ const Home = (props) => {
 				try {
 					await props.updateNotice(id, newNotice, props.token)
 					setNewNotice('')
-					props.setNotification({ content: `Notice Updated`, colour: 'green' }, 5)
+					props.setNotification({ content: `Notice Updated`, colour: 'green' }, 'short')
 				} catch (exception) {
-					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 				}
 			}
 			const handleRemoveNotice = async (id) => {
 				try {
 					await props.removeNotice(id, props.token)
-					props.setNotification({ content: `Notice Removed`, colour: 'green' }, 5)
+					props.setNotification({ content: `Notice Removed`, colour: 'green' }, 'short')
 				} catch (exception) {
-					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 				}
 			}
 			if (props.user) {
@@ -106,9 +106,9 @@ const Home = (props) => {
 				try {
 					await props.addNotice(newNotice, props.token)
 					setNewNotice('')
-					props.setNotification({ content: `New Notice Posted`, colour: 'green' }, 5)
+					props.setNotification({ content: `New Notice Posted`, colour: 'green' }, 'short')
 				} catch (exception) {
-					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 				}
 			}
 			if (props.user) {

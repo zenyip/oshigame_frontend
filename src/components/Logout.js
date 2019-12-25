@@ -11,7 +11,7 @@ const LogoutNoHistory = (props) => {
 		window.localStorage.removeItem('oshigameUserToken')
 		props.setToken(null)
 		props.setUser(null)
-		props.setNotification({ content: 'logged out successfully', colour: 'green' }, 5)
+		props.setNotification({ content: 'logged out successfully', colour: 'green' }, 'short')
 		props.history.push('/')
 	}
 

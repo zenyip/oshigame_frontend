@@ -29,9 +29,9 @@ const LoginNoHistory = (props) => {
 			props.setToken(loggedUser.token)
 			const user = await props.setUserByToken(loggedUser.token)
 			props.history.push('/')
-			props.setNotification({ content: `successfully logged in as ${user.displayname}`, colour: 'green' }, 5)
+			props.setNotification({ content: `successfully logged in as ${user.displayname}`, colour: 'green' })
 		} catch (exception) {
-			props.setNotification({ content: 'wrong user name or password', colour: 'red' }, 5)
+			props.setNotification({ content: 'wrong user name or password', colour: 'red' }, 'long')
 		}
 	}
 

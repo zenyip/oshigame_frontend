@@ -18,7 +18,7 @@ const AdminMenu = (props) => {
 
 	const handleConfirmConfirm = async () => {
 		await resetService.resetDB(props.token)
-		props.setNotification({ content: 'database reseted', colour: 'orange' }, 5)
+		props.setNotification({ content: 'database reseted', colour: 'orange' }, 'long')
 		setConfirmOpen(false)
 	}
 

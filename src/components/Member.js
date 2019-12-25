@@ -115,9 +115,9 @@ const Member = (props) => {
 					}
 					props.updateMemberBid(memberUpdate)
 					setBid(shownMember.value)
-					props.setNotification({ content: `a bid of $${bid} is placed for signing ${shownMember.name_j}`, colour: 'green' }, 5)
+					props.setNotification({ content: `a bid of $${bid} is placed for signing ${shownMember.name_j}`, colour: 'green' })
 				} catch (exception) {
-					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 				}
 			}
 		}
@@ -137,9 +137,9 @@ const Member = (props) => {
 				await negotiationsService.applyForceTrade(newForceTrade, props.token)
 				await props.setUserByToken(props.token)
 				await props.initializeMembers()
-				props.setNotification({ content: `a force trade is applied at $${forceTradePrice} for signing ${shownMember.name_j} from ${shownMember.agency.displayname} `, colour: 'green' }, 5)
+				props.setNotification({ content: `a force trade is applied at $${forceTradePrice} for signing ${shownMember.name_j} from ${shownMember.agency.displayname} `, colour: 'green' })
 			} catch (exception) {
-				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 			}
 			setForceTradeConfirmOpen(false)
 		}
@@ -159,9 +159,9 @@ const Member = (props) => {
 				await negotiationsService.lateSign(newLateSign, props.token)
 				await props.setUserByToken(props.token)
 				await props.initializeMembers()
-				props.setNotification({ content: `late signed ${shownMember.name_j} at $${lateSignPrice}. `, colour: 'green' }, 5)
+				props.setNotification({ content: `late signed ${shownMember.name_j} at $${lateSignPrice}. `, colour: 'green' })
 			} catch (exception) {
-				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 			}
 			setLateSignConfirmOpen(false)
 		}
@@ -180,9 +180,9 @@ const Member = (props) => {
 				await negotiationsService.releaseMember(newRelease, props.token)
 				await props.setUserByToken(props.token)
 				await props.initializeMembers()
-				props.setNotification({ content: `${shownMember.name_j} is released and cash back ${releasePrice}`, colour: 'green' }, 5)
+				props.setNotification({ content: `${shownMember.name_j} is released and cash back ${releasePrice}`, colour: 'green' })
 			} catch (exception) {
-				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 			}
 			setReleaseConfirmOpen(false)
 		}
@@ -204,9 +204,9 @@ const Member = (props) => {
 						}
 						await negotiationsService.sendOffer(newOffer, props.token)
 						await props.setUserByToken(props.token)
-						props.setNotification({ content: `an offer of $${offer} is sent to ${shownMember.agency.displayname} for signing ${shownMember.name_j}`, colour: 'green' }, 5)
+						props.setNotification({ content: `an offer of $${offer} is sent to ${shownMember.agency.displayname} for signing ${shownMember.name_j}`, colour: 'green' })
 					} catch (exception) {
-						props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+						props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 					}
 				}
 			}
@@ -222,10 +222,10 @@ const Member = (props) => {
 				const updatedMember = await negotiationsService.memberPayrise(payriseBody, props.token)
 				await props.setUserByToken(props.token)
 				await props.initializeMembers()
-				props.setNotification({ content: `value of ${shownMember.name_j} is raised by ${payriseBody.amount} to ${updatedMember.value}`, colour: 'green' }, 5)
+				props.setNotification({ content: `value of ${shownMember.name_j} is raised by ${payriseBody.amount} to ${updatedMember.value}`, colour: 'green' })
 				setPayrise('')
 			} catch (exception) {
-				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 			}
 		}
 
@@ -242,7 +242,7 @@ const Member = (props) => {
 		const handleAssign = async (event) => {
 			event.preventDefault()
 			if (!assignment) {
-				props.setNotification({ content: 'assignment has not been chosen' , colour: 'red' }, 5)
+				props.setNotification({ content: 'assignment has not been chosen' , colour: 'red' })
 				return
 			}
 			try {
@@ -251,9 +251,9 @@ const Member = (props) => {
 				setAssignemt('')
 				setCollectable(false)
 				await props.setUserByToken(props.token)
-				props.setNotification({ content: `${assignedMember.job.name} is assigned.`, colour: 'green' }, 5)
+				props.setNotification({ content: `${assignedMember.job.name} is assigned.`, colour: 'green' })
 			} catch (exception) {
-				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 			}
 		}
 
@@ -262,9 +262,9 @@ const Member = (props) => {
 			try {
 				await jobService.cancelJob(shownMember.id, props.token)
 				await props.initializeMembers()
-				props.setNotification({ content: `job is cancelled`, colour: 'green' }, 5)
+				props.setNotification({ content: `job is cancelled`, colour: 'green' })
 			} catch (exception) {
-				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 			}
 		}
 
@@ -275,9 +275,9 @@ const Member = (props) => {
 				await props.initializeMembers()
 				setCollectable(false)
 				await props.setUserByToken(props.token)
-				props.setNotification({ content: `gained ${collectedRewards.fanReward} fans and $${collectedRewards.moneyReward}`, colour: 'green' }, 5)
+				props.setNotification({ content: `gained ${collectedRewards.fanReward} fans and $${collectedRewards.moneyReward}`, colour: 'green' })
 			} catch (exception) {
-				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 5)
+				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 			}
 		}
 

@@ -11,7 +11,8 @@ import {
 	sortMembersByFanSize
 } from '../reducers/membersReducer'
 import { Link } from 'react-router-dom'
-import { Grid, Button, Select, Image, Loader } from 'semantic-ui-react'
+import Loading from './Loading'
+import { Grid, Button, Select, Image } from 'semantic-ui-react'
 
 const teamList = ['All Teams', 'Team A', 'Team K', 'Team B', 'Team 4', 'Team 8']
 const teamOptions = teamList.map(t => {return { key: t, text: t, value: t }})
@@ -304,7 +305,7 @@ const Members = props => {
 		)
 	} else {
 		return (
-			<Loader active>Loading</Loader>
+			<Loading />
 		)
 	}
 }

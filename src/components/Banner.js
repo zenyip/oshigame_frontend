@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Responsive, Loader } from 'semantic-ui-react'
+import Loading from './Loading'
+import { Responsive } from 'semantic-ui-react'
 import '../css/animations.css'
 
 const Banner = (props) => {
@@ -49,7 +50,7 @@ const Banner = (props) => {
 				<img key={m.id} src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} sylte={picStyle} width={width}/>
 			))
 		}
-		return <Loader active>Loading</Loader>
+		return <Loading />
 	}
 
 	return (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Grid, Loader } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
 const TopPopularity = (props) => {
 	const [hoverMember, setHoverMember] = useState(null)
@@ -37,7 +37,7 @@ const TopPopularity = (props) => {
 				</div>
 			))
 		} else {
-			return <Loader active>Loading</Loader>
+			return null
 		}
 	}
 

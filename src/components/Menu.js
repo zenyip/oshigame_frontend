@@ -72,10 +72,10 @@ const Menu = (props) => {
 				</UIMenu.Item>
 				<UIMenu.Item>
 					<Responsive {...Responsive.onlyMobile}>
-						<Link to="/members"><Icon name='users' /></Link>
+						<Link to="/members"><Icon name='female' /></Link>
 					</Responsive>
 					<Responsive minWidth={Responsive.onlyTablet.minWidth}>
-						<Icon name='users' />
+						<Icon name='female' />
 						<Link to="/members">Members</Link>
 					</Responsive>
 				</UIMenu.Item>

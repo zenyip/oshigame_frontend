@@ -12,7 +12,7 @@ import {
 } from '../reducers/membersReducer'
 import { Link } from 'react-router-dom'
 import Loading from './Loading'
-import { Grid, Button, Select, Image } from 'semantic-ui-react'
+import { Grid, Button, Select, Image, Icon } from 'semantic-ui-react'
 
 const teamList = ['All Teams', 'Team A', 'Team K', 'Team B', 'Team 4', 'Team 8']
 const teamOptions = teamList.map(t => {return { key: t, text: t, value: t }})
@@ -199,6 +199,27 @@ const Members = props => {
 					return 'No Agency'
 				}
 			}
+			const quickInfo = (m) => {
+				if (s === 5) {
+					return (
+						<Grid.Row>
+							<div>{m.name_e.firstname} {m.name_e.lastname}</div>
+							<div><Icon name='dollar sign' />{m.value}{' / '}<Icon name='users' />{m.fanSize}</div>
+						</Grid.Row>
+					)
+				}
+				if (s === 3) {
+					return (
+						<Grid.Row only='mobile'>
+							<div>{m.name_e.firstname}</div>
+							<div>{m.name_e.lastname}</div>
+							<div><Icon name='dollar sign' />{m.value}</div>
+							<div><Icon name='users' />{m.fanSize}</div>
+						</Grid.Row>
+					)
+				}
+				return
+			}
 			if (filteredMembers.length > 0) {
 				return filteredMembers.map(m => {
 					return (
@@ -221,9 +242,7 @@ const Members = props => {
 									</div>
 								</Link>
 							</Grid.Row>
-							<Grid.Row>
-								<p>{m.name_e.firstname} {m.name_e.lastname} - V:{m.value} / F:{m.fanSize}</p>
-							</Grid.Row>
+							{quickInfo(m)}
 						</Grid.Column>
 					)
 				})

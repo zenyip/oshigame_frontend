@@ -68,10 +68,9 @@ const Member = (props) => {
 						assignmentFormStyle = { display: null }
 					}
 				}
+			} else {
 				if (props.phrase === 'negotiation') {
-					if (!shownMember.agency.displayname.toString().includes(props.user.displayname)){
-						offerFormStyle = { display: 'inline' }
-					}
+					offerFormStyle = { display: 'inline' }
 				}
 			}
 		} else {

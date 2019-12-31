@@ -4,11 +4,11 @@ const notificationReducer = (state = initialState, action) => {
 
 	switch(action.type) {
 		case 'NOTIFY': {
-			const newMessage = { content: action.data.content, colour: action.data.colour }
+			const newMessage = { header: action.data.header, content: action.data.content, colour: action.data.colour, listing: action.data.listing }
 			return newMessage
 		}
 		case 'SILENT':
-			return { content: null, colour: 'white' }
+			return { header: null, content: null, colour: 'white', listing: false }
 		default:
 			return state
 	}
@@ -25,7 +25,7 @@ export const setNotification = (message, time) => {
 	return async dispatch => {
 		dispatch({
 			type: 'NOTIFY',
-			data: { content: message.content, colour: message.colour }
+			data: { header: message.header, content: message.content, colour: message.colour, listing: message.listing }
 		})
 		await new Promise(resolve => setTimeout(resolve, ms))
 		dispatch({

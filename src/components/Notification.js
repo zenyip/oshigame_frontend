@@ -10,11 +10,24 @@ const Notification = (props) => {
 
 	const active = props.notification.content ? true : false
 
-	return (
-		<Dimmer active={active} page>
-			<Message color={props.notification.colour}>{props.notification.content}</Message>
-		</Dimmer>
-	)
+	if (props.notification.listing) {
+		return (
+			<Dimmer active={active} page>
+				<Message color={props.notification.colour} header={props.notification.header} list={props.notification.content} />
+			</Dimmer>
+		)
+	} else {
+		return (
+			<Dimmer active={active} page>
+				<Message color={props.notification.colour}>
+					<Message.Header>
+						{props.notification.header}
+					</Message.Header>
+					{props.notification.content}
+				</Message>
+			</Dimmer>
+		)
+	}
 }
 
 const mapStateToProps = (state) => {

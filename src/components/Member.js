@@ -245,12 +245,16 @@ const Member = (props) => {
 				return
 			}
 			try {
-				const assignedMember = await jobService.assignJob(shownMember.id, assignment, props.token)
+				const response = await jobService.assignJob(shownMember.id, assignment, props.token)
 				await props.initializeMembers()
 				setAssignemt('')
 				setCollectable(false)
 				await props.setUserByToken(props.token)
-				props.setNotification({ content: `${assignedMember.job.name} is assigned.`, colour: 'green' })
+				props.setNotification({
+					header: `${response.job.name} is assigned.`,
+					content: `Current asset: $${response.currentAssest}`,
+					colour: 'green'
+				})
 			} catch (exception) {
 				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 			}
@@ -270,11 +274,20 @@ const Member = (props) => {
 		const handleAssignmentCollect = async (event) => {
 			event.preventDefault()
 			try {
-				const collectedRewards = await jobService.collectJob(shownMember.id, props.token)
+				const response = await jobService.collectJob(shownMember.id, props.token)
 				await props.initializeMembers()
 				setCollectable(false)
 				await props.setUserByToken(props.token)
-				props.setNotification({ content: `gained ${collectedRewards.fanReward} fans and $${collectedRewards.moneyReward}`, colour: 'green' })
+				props.setNotification({
+					header: 'Rewards Collected',
+					content: [
+						`gained ${response.fanReward} fans and $${response.moneyReward}.`,
+						`New fans number: ${response.currentFanSize}.`,
+						`Current asset: $${response.currentAssest}.`
+					],
+					colour: 'green',
+					listing: true
+				}, 'long')
 			} catch (exception) {
 				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 			}

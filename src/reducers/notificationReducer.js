@@ -34,4 +34,12 @@ export const setNotification = (message, time) => {
 	}
 }
 
+export const quickSilent = () => {
+	return async dispatch => {
+		dispatch({
+			type: 'SILENT'
+		})
+	}
+}
+
 export default notificationReducer

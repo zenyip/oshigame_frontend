@@ -61,6 +61,13 @@ const App = (props) => {
 
 	return (
 		<Container>
+			<style>
+				{`
+					html, body {
+						background-color: #fbe0e6 ;
+					}
+				`}
+			</style>
 			<Router>
 				<Segment basic>
 					<Route path="/" render={() =>

@@ -22,19 +22,24 @@ const AdminMenu = (props) => {
 		setConfirmOpen(false)
 	}
 
+	const linkStyle = {
+		textDecoration: 'none',
+		color: 'white'
+	}
+
 	return (
 		<React.Fragment>
 			<UIMenu.Item link>
-				<Link to="/cpkeys">cpkeys</Link>
+				<Link to="/cpkeys" style={linkStyle}>cpkeys</Link>
 			</UIMenu.Item>
 			<UIMenu.Item link>
-				<Link to="/users">users</Link>
+				<Link to="/users" style={linkStyle}>users</Link>
 			</UIMenu.Item>
 			<UIMenu.Item link>
-				<Link to="/negotiations">negotiations</Link>
+				<Link to="/negotiations" style={linkStyle}>negotiations</Link>
 			</UIMenu.Item>
 			<UIMenu.Item link>
-				<Link to="/new_member">add member</Link>
+				<Link to="/new_member" style={linkStyle}>add member</Link>
 			</UIMenu.Item>
 			<UIMenu.Item>
 				<Button onClick={handleReset}>RESET DB</Button>

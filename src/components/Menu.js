@@ -10,16 +10,21 @@ const style = {
 	marginBottom: "20px"
 }
 
+const linkStyle = {
+	textDecoration: 'none',
+	color: 'white'
+}
+
 const Menu = (props) => {
 
 	const extendedMenu = () => (props.user ?
 		<UIMenu.Item>
 			<Responsive {...Responsive.onlyMobile}>
-				<Link to="/profile"><Icon name='vcard' /></Link>
+				<Link to="/profile" style={linkStyle}><Icon name='vcard' /></Link>
 			</Responsive>
 			<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 				<Icon name='vcard' />
-				<Link to="/profile">Profile</Link>
+				<Link to="/profile" style={linkStyle}>Profile</Link>
 			</Responsive>
 		</UIMenu.Item> :
 		null
@@ -39,11 +44,11 @@ const Menu = (props) => {
 		</UIMenu.Item> :
 		<UIMenu.Item>
 			<Responsive {...Responsive.onlyMobile}>
-				<Link to="/login"><Icon name='sign in' /></Link>
+				<Link to="/login" style={linkStyle}><Icon name='sign in' /></Link>
 			</Responsive>
 			<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 				<Icon name='sign in' />
-				<Link to="/login">login / sign up</Link>
+				<Link to="/login" style={linkStyle}>login / sign up</Link>
 			</Responsive>
 		</UIMenu.Item>
 	)
@@ -60,23 +65,23 @@ const Menu = (props) => {
 
 	return (
 		<React.Fragment>
-			<UIMenu style={style} widths={menuWidth()}>
+			<UIMenu style={style} widths={menuWidth()} color='pink' inverted>
 				<UIMenu.Item>
 					<Responsive {...Responsive.onlyMobile}>
-						<Link to="/"><Icon name='home' /></Link>
+						<Link to="/" style={linkStyle}><Icon name='home' /></Link>
 					</Responsive>
 					<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 						<Icon name='home' />
-						<Link to="/">Home</Link>
+						<Link to="/" style={linkStyle}>Home</Link>
 					</Responsive>
 				</UIMenu.Item>
 				<UIMenu.Item>
 					<Responsive {...Responsive.onlyMobile}>
-						<Link to="/members"><Icon name='female' /></Link>
+						<Link to="/members" style={linkStyle}><Icon name='female' /></Link>
 					</Responsive>
 					<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 						<Icon name='female' />
-						<Link to="/members">Members</Link>
+						<Link to="/members" style={linkStyle}>Members</Link>
 					</Responsive>
 				</UIMenu.Item>
 				{extendedMenu()}

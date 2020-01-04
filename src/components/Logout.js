@@ -15,14 +15,19 @@ const LogoutNoHistory = (props) => {
 		props.history.push('/')
 	}
 
+	const linkStyle = {
+		textDecoration: 'none',
+		color: 'white'
+	}
+
 	return (
 		<React.Fragment>
 			<Responsive {...Responsive.onlyMobile}>
-				<Link onClick={handleLogout} to="/"><Icon name='sign out' /></Link>
+				<Link onClick={handleLogout} to="/" style={linkStyle}><Icon name='sign out' /></Link>
 			</Responsive>
 			<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 				<Icon name='sign out' onClick={handleLogout} />
-				<Link onClick={handleLogout} to='/'>Logout</Link>
+				<Link onClick={handleLogout} to='/' style={linkStyle}>Logout</Link>
 			</Responsive>
 		</React.Fragment>
 	)

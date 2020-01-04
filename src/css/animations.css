@@ -21,7 +21,7 @@
 .banner {
     width: 450px;
     height: 200px;
-    background-color: white;
+    background-color: '#fbe0e6';
     position: relative;
     -webkit-animation: movingPic 5s infinite;
     animation: movingPic 5s infinite;
@@ -34,7 +34,7 @@
 .bannerMobile {
     width: 300px;
     height: 140px;
-    background-color: white;
+    background-color: '#fbe0e6';
     position: relative;
     -webkit-animation: movingPicMobile 3s infinite;
     animation: movingPicMobile 3s infinite;

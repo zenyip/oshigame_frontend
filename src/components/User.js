@@ -3,9 +3,12 @@ import negotiationsService from '../services/negotiations'
 import { setUserByToken } from '../reducers/userReducer'
 import { initializeMembers } from '../reducers/membersReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import remainTime from './modules/remainTime'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Loading from './Loading'
+import ButtonAssignmentCollect from './ButtonAssignmentCollect'
+import ButtonAssignmentCancel from './ButtonAssignmentCancel'
 import { Button } from 'semantic-ui-react'
 
 const User = (props) => {
@@ -22,26 +25,11 @@ const User = (props) => {
 			null
 
 		const oshimenList = (u) => {
-			const remainTime = (endTime) => {
-				const endTimeMS = Date.parse(endTime)
-				const currentTimeMS = Date.parse(props.serverTime)
-				const remainTimeMS = endTimeMS - currentTimeMS
-				if (remainTimeMS > 0) {
-					let remainTimeS = Math.floor(remainTimeMS / 1000)
-					const remainHrs = Math.floor(remainTimeS / 3600)
-					remainTimeS = remainTimeS % 3600
-					const remainMins = Math.floor(remainTimeS / 60)
-					const remainS = remainTimeS % 60
-					return `will be back in ${remainHrs} hr ${remainMins} min ${remainS} s`
-				} else {
-					return 'is ready to collect'
-				}
-			}
 			const jobState = (m) => {
 				if (m.job) {
 					if (m.job.name) {
 						return (
-							<span> is on {m.job.name} <br /> >> and {remainTime(m.job.endTime)} </span>
+							<span> is on {m.job.name} <br /> >> and {remainTime.remainTimeText(props.serverTime, m.job.endTime, 'User')} </span>
 						)
 					}
 				}
@@ -51,10 +39,14 @@ const User = (props) => {
 			return (u.oshimens.length > 0 ?
 				u.oshimens.map(m => (
 					<div key={m.id}>
-						<Link to={`/members/${m.id}`}>
-							{m.nickname}
-						</Link>
-						{jobState(m)}
+						<div>
+							<Link to={`/members/${m.id}`}>
+								{m.nickname}
+							</Link>
+							{jobState(m)}
+						</div>
+						<ButtonAssignmentCollect shownMember={m} short={true}/>
+						<ButtonAssignmentCancel shownMember={m} short={true}/>
 					</div>
 				)) :
 				'none'

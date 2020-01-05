@@ -22,6 +22,14 @@ export const setNotification = (message, time) => {
 	if (time === 'short') {
 		ms = 1000
 	}
+	if (time === 'byClick') {
+		return async dispatch => {
+			dispatch({
+				type: 'NOTIFY',
+				data: { header: message.header, content: message.content, colour: message.colour, listing: message.listing }
+			})
+		}
+	}
 	return async dispatch => {
 		dispatch({
 			type: 'NOTIFY',

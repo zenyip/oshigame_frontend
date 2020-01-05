@@ -4,17 +4,22 @@ import negotiationsService from '../services/negotiations'
 import { setUserByToken } from '../reducers/userReducer'
 import { initializeMembers } from '../reducers/membersReducer'
 import { connect } from 'react-redux'
-import { Form, Button } from 'semantic-ui-react'
+import { Form, Button, Confirm } from 'semantic-ui-react'
 
 const PayriseForm = (props) => {
 	const { shownMember } = props
 	const [payrise, setPayrise] = useState('')
+	const [confirmOpen, setConfirmOpen] = useState(false)
 
 	const inlineStyle = {
 		display: 'inline'
 	}
 
-	const handlePayrise = async (event) => {
+	const handlePayriseCancel = () => {
+		setConfirmOpen(false)
+	}
+
+	const handlePayriseConfirm = async (event) => {
 		event.preventDefault()
 		try {
 			const payriseBody = {
@@ -31,20 +36,33 @@ const PayriseForm = (props) => {
 		}
 	}
 
+	const handlePayrise = async (event) => {
+		event.preventDefault()
+		setConfirmOpen(true)
+	}
+
 	return (
-		<Form onSubmit={handlePayrise} style={props.style}>
-			<Form.Input
-				style={inlineStyle}
-				type="number"
-				label='Pay Rise Amount:'
-				placeholder={payrise}
-				onChange={({ target }) => setPayrise(target.value)}
-				value={payrise}
+		<React.Fragment>
+			<Form onSubmit={handlePayrise} style={props.style}>
+				<Form.Input
+					style={inlineStyle}
+					type="number"
+					label='Pay Rise Amount:'
+					placeholder={payrise}
+					onChange={({ target }) => setPayrise(target.value)}
+					value={payrise}
+				/>
+				<Button type="submit" color='pink'>
+					Confirm Pay Rise
+				</Button>
+			</Form>
+			<Confirm
+				open={confirmOpen}
+				content={`Confirm to value up ${shownMember.nickname} by $${payrise} to $${parseInt(shownMember.value) + parseInt(payrise)}?`}
+				onCancel={handlePayriseCancel}
+				onConfirm={handlePayriseConfirm}
 			/>
-			<Button type="submit" color='pink'>
-				Confirm Pay Rise
-			</Button>
-		</Form>
+		</React.Fragment>
 	)
 }
 

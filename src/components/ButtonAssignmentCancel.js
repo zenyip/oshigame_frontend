@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { setNotification } from '../reducers/notificationReducer'
 import jobService from '../services/job'
 import { setUserByToken } from '../reducers/userReducer'
 import { initializeMembers } from '../reducers/membersReducer'
 import { connect } from 'react-redux'
-import { Button } from 'semantic-ui-react'
+import { Button, Confirm  } from 'semantic-ui-react'
 
 const ButtonAssignmentCancel = (props) => {
 	const { shownMember } = props
+	const [confirmOpen, setConfirmOpen] = useState(false)
+
 	let style = {}
 	if (props.style) {
 		style = props.style
@@ -15,7 +17,11 @@ const ButtonAssignmentCancel = (props) => {
 		style = shownMember.job ? { display: 'inline' } : { display: 'none' } 
 	}
 
-	const handleAssignmentCancel = async (event) => {
+	const handleCancelCancel = () => {
+		setConfirmOpen(false)
+	}
+
+	const handleCancelConfirm = async (event) => {
 		event.preventDefault()
 		try {
 			await jobService.cancelJob(shownMember.id, props.token)
@@ -27,10 +33,25 @@ const ButtonAssignmentCancel = (props) => {
 		}
 	}
 
+	const handleAssignmentCancel = async (event) => {
+		event.preventDefault()
+		setConfirmOpen(true)
+	}
+
 	return (
-		<Button onClick={handleAssignmentCancel} style={style} color='violet'>
-			{props.short ? 'Cancel' : 'Cancel Assignment'}
-		</Button>
+		<React.Fragment>
+			<Button onClick={handleAssignmentCancel} style={style} color='violet'>
+				{props.short ? 'Cancel' : 'Cancel Assignment'}
+			</Button>
+			<Confirm
+				open={confirmOpen}
+				cancelButton='Back'
+				confirmButton="Confirm Cancel"
+				content={`Confirm to cancel the assignment of ${shownMember.nickname}? (No Refund)`}
+				onCancel={handleCancelCancel}
+				onConfirm={handleCancelConfirm}
+			/>
+		</React.Fragment>
 	)
 }
 

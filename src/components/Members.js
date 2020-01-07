@@ -12,7 +12,7 @@ import {
 } from '../reducers/membersReducer'
 import { Link } from 'react-router-dom'
 import Loading from './Loading'
-import { Grid, Button, Select, Image, Icon, Reveal } from 'semantic-ui-react'
+import { Grid, Button, Select, Image, Icon, Reveal, Responsive } from 'semantic-ui-react'
 
 const teamList = ['All Teams', 'Team A', 'Team K', 'Team B', 'Team 4', 'Team 8']
 const teamOptions = teamList.map(t => {return { key: t, text: t, value: t }})
@@ -214,25 +214,30 @@ const Members = props => {
 							<Grid.Row>
 								<Link to={`/members/${m.id}`}>
 									<div>
-										<Reveal animated='fade' instant>
-											<Reveal.Content visible>
-												<Image fluid src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={profilePicStyle(m.team, false)} />
-											</Reveal.Content>
-											<Reveal.Content hidden>
-												<Image fluid src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={profilePicStyle(m.team, true)} />
-												<div style={revealTextStyle} >
-													{m.name_j}
-													<br />
-													in
-													<br />
-													{agencyName(m)}
-													<br />
-													Value: {m.value}
-													<br />
-													Fans: {m.fanSize}
-												</div>
-											</Reveal.Content>
-										</Reveal>
+										<Responsive minWidth={Responsive.onlyTablet.minWidth}>
+											<Reveal animated='fade' instant>
+												<Reveal.Content visible>
+													<Image fluid src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={profilePicStyle(m.team, false)} />
+												</Reveal.Content>
+												<Reveal.Content hidden>
+													<Image fluid src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={profilePicStyle(m.team, true)} />
+													<div style={revealTextStyle} >
+														{m.name_j}
+														<br />
+														in
+														<br />
+														{agencyName(m)}
+														<br />
+														Value: {m.value}
+														<br />
+														Fans: {m.fanSize}
+													</div>
+												</Reveal.Content>
+											</Reveal>
+										</Responsive>
+										<Responsive {...Responsive.onlyMobile} >
+											<Image fluid src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={profilePicStyle(m.team, false)} />
+										</Responsive>
 									</div>
 								</Link>
 							</Grid.Row>

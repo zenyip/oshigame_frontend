@@ -12,7 +12,7 @@ import {
 } from '../reducers/membersReducer'
 import { Link } from 'react-router-dom'
 import Loading from './Loading'
-import { Grid, Button, Select, Image, Icon } from 'semantic-ui-react'
+import { Grid, Button, Select, Image, Icon, Reveal } from 'semantic-ui-react'
 
 const teamList = ['All Teams', 'Team A', 'Team K', 'Team B', 'Team 4', 'Team 8']
 const teamOptions = teamList.map(t => {return { key: t, text: t, value: t }})
@@ -44,16 +44,7 @@ const Members = props => {
 	const [genFilter, setGenFilter] = useState('All Generations')
 	const [hometownFilter, setHometownFilter] = useState('Any Hometown')
 	const [agencyFilter, setAgencyFilter] = useState('All Agency')
-	const [hoverMember, setHoverMember] = useState(null)
 	const [currentSort, setCurrentSort] = useState('Default')
-
-	const onHover = (member) => {
-		setHoverMember(member)
-	}
-
-	const offHover = () => {
-		setHoverMember(null)
-	}
 
 	if (props.user) {
 		agencyList = ['All Agency', 'Under Your Agency', 'Signed by Others', 'Not Free', 'Free']
@@ -140,7 +131,7 @@ const Members = props => {
 			filteredMembers = genFilter === 'All Generations' ? filteredMembers : filteredMembers.filter(m => m.generation.name === genFilter)
 			filteredMembers = hometownFilter === 'Any Hometown' ? filteredMembers : filteredMembers.filter(m => m.hometown === hometownFilter)
 			filteredMembers = filteringByAgency(filteredMembers, agencyFilter)
-			const profilePicStyle = (memberId, team) => {
+			const profilePicStyle = (team, hidden) => {
 				const colorCheck = (checkTeam) => {
 					switch(checkTeam) {
 						case 'Team A': {
@@ -166,7 +157,7 @@ const Members = props => {
 				const teamColor1 = colorCheck(team[0])
 				const teamColor2 = team.length > 1 ? colorCheck(team[1]) : teamColor1
 
-				const opacity = memberId === hoverMember ? '0.3' : '1'
+				const opacity = hidden ? '0.3' : '1'
 
 				return ({
 					display: 'block',
@@ -177,20 +168,16 @@ const Members = props => {
 					borderRight: `${s}px solid ${teamColor2}`
 				})
 			}
-			const hoverText = (memberId) => {
-				const textShown = memberId === hoverMember ? null : 'none'
-				return ({
-					display: textShown,
-					position: 'absolute',
-					top: '45%',
-					left: '50%',
-					transform: 'translate(-50%, -50%)',
-					fontSize: '16px',
-					lineHeight: '1.5em',
-					textAlign: 'center',
-					color: '#000000',
-					textShadow: '2px 2px 2px #FFFFFF'
-				})
+			const revealTextStyle = {
+				position: 'absolute',
+				top: '50%',
+				left: '50%',
+				transform: 'translate(-50%, -50%)',
+				fontSize: '16px',
+				lineHeight: '1.5em',
+				textAlign: 'center',
+				color: '#000000',
+				textShadow: '2px 2px 2px #FFFFFF'
 			}
 			const agencyName = (member) => {
 				if (member.agency) {
@@ -227,18 +214,25 @@ const Members = props => {
 							<Grid.Row>
 								<Link to={`/members/${m.id}`}>
 									<div>
-										<Image fluid src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={profilePicStyle(m.id, m.team)} onMouseOver={()=>onHover(m.id)} onMouseOut={offHover}/>
-										<div style={hoverText(m.id)} onMouseOver={()=>onHover(m.id)} onMouseOut={offHover}>
-											{m.name_j}
-											<br />
-											in
-											<br />
-											{agencyName(m)}
-											<br />
-											Value: {m.value}
-											<br />
-											Fans: {m.fanSize}
-										</div>
+										<Reveal animated='fade' instant>
+											<Reveal.Content visible>
+												<Image fluid src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={profilePicStyle(m.team, false)} />
+											</Reveal.Content>
+											<Reveal.Content hidden>
+												<Image fluid src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} height="200" style={profilePicStyle(m.team, true)} />
+												<div style={revealTextStyle} >
+													{m.name_j}
+													<br />
+													in
+													<br />
+													{agencyName(m)}
+													<br />
+													Value: {m.value}
+													<br />
+													Fans: {m.fanSize}
+												</div>
+											</Reveal.Content>
+										</Reveal>
 									</div>
 								</Link>
 							</Grid.Row>

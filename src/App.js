@@ -12,6 +12,7 @@ import Cpkeys from './components/Cpkeys'
 import Users from './components/Users'
 import Negotiations from './components/Negotiations'
 import MemberForm from './components/MemberForm'
+import Notices from './components/Notices'
 import { getServerTime, oneTick } from './reducers/timeReducer'
 import { initializeMembers } from './reducers/membersReducer'
 import { initializeDisplaynames } from './reducers/displaynamesReducer'
@@ -24,6 +25,7 @@ import {
 	Route, Redirect
 } from 'react-router-dom'
 import { Container, Segment } from 'semantic-ui-react'
+import './css/oshigame.css'
 
 
 const App = (props) => {
@@ -61,13 +63,6 @@ const App = (props) => {
 
 	return (
 		<Container>
-			<style>
-				{`
-					html, body {
-						background-color: #fbe0e6 ;
-					}
-				`}
-			</style>
 			<Router>
 				<Segment basic>
 					<Route path="/" render={() =>
@@ -105,6 +100,9 @@ const App = (props) => {
 					} />
 					<Route exact path="/new_member" render={() =>
 						<MemberForm />
+					} />
+					<Route exact path="/notices" render={() =>
+						<Notices />
 					} />
 				</Segment>
 			</Router>

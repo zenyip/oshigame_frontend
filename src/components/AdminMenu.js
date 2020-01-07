@@ -41,6 +41,9 @@ const AdminMenu = (props) => {
 			<UIMenu.Item link>
 				<Link to="/new_member" style={linkStyle}>add member</Link>
 			</UIMenu.Item>
+			<UIMenu.Item link>
+				<Link to="/notices" style={linkStyle}>notices</Link>
+			</UIMenu.Item>
 			<UIMenu.Item>
 				<Button onClick={handleReset}>RESET DB</Button>
 				<Confirm

@@ -21,6 +21,7 @@ const Users = (props) => {
 			return users.map(u => (
 				<div key={u.id}>
 					<User shownUser = {u} />
+						<div>id: {u.id}</div>
 				</div>
 			))
 		} else {

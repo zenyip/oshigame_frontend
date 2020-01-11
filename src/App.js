@@ -8,11 +8,10 @@ import Members from './components/Members'
 import Login from './components/Login'
 import SignUpForm from './components/SignUpForm'
 import Profile from './components/Profile'
-import Cpkeys from './components/Cpkeys'
 import Users from './components/Users'
 import Negotiations from './components/Negotiations'
 import MemberForm from './components/MemberForm'
-import Notices from './components/Notices'
+import Controls from './components/Controls'
 import { getServerTime, oneTick } from './reducers/timeReducer'
 import { initializeMembers } from './reducers/membersReducer'
 import { initializeDisplaynames } from './reducers/displaynamesReducer'
@@ -20,6 +19,7 @@ import { initializeNotices } from './reducers/noticesReducer'
 import { setToken } from './reducers/tokenReducer'
 import { setUserByToken } from './reducers/userReducer'
 import { checkPhrase } from './reducers/phraseReducer'
+import { getCertBackground } from './reducers/certBackgroundReducer'
 import {
 	BrowserRouter as Router,
 	Route, Redirect
@@ -27,10 +27,9 @@ import {
 import { Container, Segment } from 'semantic-ui-react'
 import './css/oshigame.css'
 
-
 const App = (props) => {
 
-	const { getServerTime, oneTick, setToken, setUserByToken, initializeMembers, initializeDisplaynames, initializeNotices, checkPhrase } = props
+	const { getServerTime, oneTick, setToken, setUserByToken, initializeMembers, initializeDisplaynames, initializeNotices, checkPhrase, getCertBackground } = props
 
 	useEffect (() => {
 		const startsTicking = () => {
@@ -45,6 +44,7 @@ const App = (props) => {
 
 	useEffect (() => {
 		checkPhrase()
+		getCertBackground()
 	})
 
 	useEffect (() => {
@@ -89,9 +89,6 @@ const App = (props) => {
 					<Route exact path="/profile" render={() =>
 						<Profile />
 					} />
-					<Route exact path="/cpkeys" render={() =>
-						<Cpkeys />
-					} />
 					<Route exact path="/users" render={() =>
 						<Users />
 					} />
@@ -101,8 +98,8 @@ const App = (props) => {
 					<Route exact path="/new_member" render={() =>
 						<MemberForm />
 					} />
-					<Route exact path="/notices" render={() =>
-						<Notices />
+					<Route exact path="/controls" render={() =>
+						<Controls />
 					} />
 				</Segment>
 			</Router>
@@ -124,7 +121,8 @@ const mapDispatchToProps = {
 	initializeMembers,
 	initializeDisplaynames,
 	initializeNotices,
-	checkPhrase
+	checkPhrase,
+	getCertBackground
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

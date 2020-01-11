@@ -15,4 +15,13 @@ const addMember = async (newMember, token) => {
 	return response.data
 }
 
-export default { getAll, addMember }
+const editMember = async (id, updateMember, token) => {
+	const config = {
+		headers: { Authorization: `bearer ${token}` },
+	}
+	const data = { updateMember }
+	const response = await axios.put(`${ baseUrl }/${ id }`, data, config)
+	return response.data
+}
+
+export default { getAll, addMember, editMember }

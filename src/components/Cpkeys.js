@@ -25,8 +25,8 @@ const Cpkeys = (props) => {
 	return (
 		<div>
 			<h2>Cpkeys</h2>
-			<CpkeyForm />
 			{ cpkeysList() }
+			<CpkeyForm />
 		</div>
 	)
 }

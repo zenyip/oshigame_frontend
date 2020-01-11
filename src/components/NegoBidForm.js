@@ -81,6 +81,7 @@ const mapStateToProps = (state) => {
 	return {
 		token: state.token,
 		phrase: state.phrase,
+		user: state.user
 	}
 }
 

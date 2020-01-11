@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { addNewMember } from '../reducers/membersReducer'
+import { addNewMember, editExistingMember } from '../reducers/membersReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { Form, Button, Select, Radio } from 'semantic-ui-react'
 import { connect } from 'react-redux'
@@ -21,6 +21,8 @@ const prefectureList = [
 const hometownOptions = prefectureList.map(p => {return { key: p, text: p, value: p }})
 
 const MemberForm = (props) => {
+	const memberOptions = props.members.map(m => {return { key: m.id, text: m.name_j, value: m.id }})
+
 	const [firstname_e, setFirstname_e] = useState('')
 	const [lastname_e, setLastname_e] = useState('')
 	const [name_j, setName_j] = useState('')
@@ -31,10 +33,13 @@ const MemberForm = (props) => {
 	const [hometown, setHometown] = useState('')
 	const [generation, setGeneration] = useState('')
 	const [pic_link, setPic_link] = useState('')
+	const [pic_forCert, setPic_forCert] = useState('')
 	const [team1, setTeam1] = useState(null)
 	const [team2, setTeam2] = useState(null)
 	const [current, setCurrent] = useState(true)
 	const [kks, setKks] = useState(false)
+
+	const [editMemberID, setEditMemberID] = useState('')
 
 	const resetForm = () => {
 		setFirstname_e('')
@@ -47,10 +52,12 @@ const MemberForm = (props) => {
 		setHometown('')
 		setGeneration('')
 		setPic_link('')
+		setPic_forCert('')
 		setTeam1('')
 		setTeam2(null)
 		setCurrent(true)
 		setKks(false)
+		setEditMemberID('')
 	}
 
 	const handleAddMember = async (event) => {
@@ -75,6 +82,7 @@ const MemberForm = (props) => {
 				hometown,
 				generation,
 				pic_link,
+				pic_forCert,
 				'team': teams,
 				current,
 				kks
@@ -87,9 +95,81 @@ const MemberForm = (props) => {
 		}
 	}
 
+	const handleEdit = async (event) => {
+		event.preventDefault()
+		try {
+			let teams = [team1]
+			if (team2 !== 'No Kennin') {
+				teams = teams.concat(team2)
+			}
+			const updateMember = {
+				'name_e': {
+					'firstname': firstname_e,
+					'lastname': lastname_e
+				},
+				name_j,
+				'name_k': {
+					'firstname': firstname_k,
+					'lastname': lastname_k
+				},
+				nickname,
+				birthday,
+				hometown,
+				generation,
+				pic_link,
+				pic_forCert,
+				'team': teams,
+				current,
+				kks
+			}
+			const editedMember = await props.editExistingMember(editMemberID, updateMember, props.token)
+			resetForm()
+			props.setNotification({ content: `member "${editedMember.name_j}" is edited`, colour: 'green' })
+		} catch (exception) {
+			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
+		}
+	}
+
+	const lookupMember = props.members.find(m => m.id === editMemberID)
+
+	const checkLink = (link) => link ? link : ''
+
+	const handleCopy = (event) => {
+		event.preventDefault()
+		setFirstname_e(lookupMember.name_e.firstname)
+		setLastname_e(lookupMember.name_e.lastname)
+		setName_j(lookupMember.name_j)
+		setFirstname_k(lookupMember.name_k.firstname)
+		setLastname_k(lookupMember.name_k.lastname)
+		setNickname(lookupMember.nickname)
+		setBirthday(lookupMember.birthday.substring(0, 10))
+		setHometown(lookupMember.hometown)
+		setGeneration(lookupMember.generation.name)
+		setPic_link(checkLink(lookupMember.pic_link))
+		setPic_forCert(checkLink(lookupMember.pic_forCert))
+		setTeam1(lookupMember.team[0])
+		setTeam2(lookupMember.team[1] ? lookupMember.team[1] : 'No Kennin')
+		setCurrent(lookupMember.current)
+		setKks(lookupMember.kks)
+	}
+
 	return (
 		<div>
 			<h2>New Member</h2>
+			<Form onSubmit={handleCopy}>
+				<Form.Group>
+					<Form.Field
+						inline
+						control={Select}
+						label='Copy Existing Member'
+						options={memberOptions}
+						placeholder='Existing Members'
+						onChange={(e, data) => setEditMemberID(data.value)}
+						value={editMemberID}
+					/>
+					<Button type="submit">COPY</Button>
+				</Form.Group>
+			</Form>
 			<Form onSubmit={handleAddMember}>
 				<Form.Group widths='equal'>
 					<Form.Input
@@ -147,12 +227,20 @@ const MemberForm = (props) => {
 						value={hometown}
 					/>
 				</Form.Group>
-				<Form.Input
-					label='Profile Picture Link'
-					placeholder='https://somewhere.jpg'
-					onChange={({ target }) => setPic_link(target.value)}
-					value={pic_link}
-				/>
+				<Form.Group widths='equal'>
+					<Form.Input
+						label='Profile Picture Link'
+						placeholder='https://somewhere.jpg'
+						onChange={({ target }) => setPic_link(target.value)}
+						value={pic_link}
+					/>
+					<Form.Input
+						label='Certificate Picture Link'
+						placeholder='https://somewhere.jpg'
+						onChange={({ target }) => setPic_forCert(target.value)}
+						value={pic_forCert}
+					/>
+				</Form.Group>
 				<Form.Group widths='equal'>
 					<Form.Field
 						control={Select}
@@ -213,7 +301,8 @@ const MemberForm = (props) => {
 						onChange={() => setKks(true)}
 					/>
 				</Form.Group>
-				<Button type="submit">ADD MEMBER</Button>
+				<Button type="submit" color='pink'>ADD MEMBER</Button>
+				<Button onClick={handleEdit}>EDIT MEMBER</Button>
 			</Form>
 		</div>
 	)
@@ -221,13 +310,15 @@ const MemberForm = (props) => {
 
 const mapStateToProps = (state) => {
 	return {
-		token: state.token
+		token: state.token,
+		members: state.members
 	}
 }
 
 const mapDispatchToProps = {
 	setNotification,
-	addNewMember
+	addNewMember,
+	editExistingMember
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemberForm)

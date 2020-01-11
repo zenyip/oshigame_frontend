@@ -82,7 +82,7 @@ const Notices = (props) => {
 		}
 		return (
 			<div>
-				<h3>Current Notes</h3>
+				<h2>Current Notes</h2>
 				{noticeList()}
 				{noticeForm()}
 			</div>

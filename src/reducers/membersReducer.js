@@ -143,6 +143,10 @@ const membersReducer = (state = [], action) => {
 			newState = defaultSort(newState)
 			return newState
 		}
+		case 'EDIT_MEMBER': {
+			const newState = state.map(m => m.id.toString().includes(action.data.id) ? action.data : m)
+			return newState
+		}
 		case 'MEMBERSORT_DEFAULT': {
 			let sortedMember = state.slice(0)
 			sortedMember = defaultSort(sortedMember)
@@ -210,6 +214,17 @@ export const addNewMember = (member, token) => {
 			data: addedMember
 		})
 		return addedMember
+	}
+}
+
+export const editExistingMember = (id, member, token) => {
+	return async dispatch => {
+		const editedMember = await memberService.editMember(id, member, token)
+		dispatch({
+			type: 'EDIT_MEMBER',
+			data: editedMember
+		})
+		return editedMember
 	}
 }
 

@@ -57,7 +57,7 @@ const Menu = (props) => {
 		if (!props.user) {
 			return 3
 		} else if (props.user.admin) {
-			return 10
+			return 9
 		} else {
 			return 4
 		}

@@ -14,6 +14,7 @@ import bidsReducer from './reducers/bidsReducer'
 import displaynamesReducer from './reducers/displaynamesReducer'
 import noticesReducer from './reducers/noticesReducer'
 import shownNoticeReducer from './reducers/shownNoticeReducer'
+import certBackgroundReducer from './reducers/certBackgroundReducer'
 
 const reducer = combineReducers({
 	members: membersReducer,
@@ -28,7 +29,8 @@ const reducer = combineReducers({
 	displaynames: displaynamesReducer,
 	notices: noticesReducer,
 	serverTime: timeReducer,
-	shownNotice: shownNoticeReducer
+	shownNotice: shownNoticeReducer,
+	certBackground: certBackgroundReducer
 })
 
 const store = createStore(

@@ -26,7 +26,7 @@ const CpkeyForm = (props) => {
 				onChange={({ target }) => setNewCpkey(target.value)}
 				value={newCpkey}
 			/>
-			<Button type="submit">ADD KEY</Button>
+			<Button type="submit" color='pink'>Add Key</Button>
 		</Form>
 	)
 }

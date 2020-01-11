@@ -16,7 +16,8 @@ const ReportDownloader = (props) => (
 
 const mapStateToProps = (state) => {
 	return {
-		user: state.user
+		user: state.user,
+		certBackground: state.certBackground
 	}
 }
 

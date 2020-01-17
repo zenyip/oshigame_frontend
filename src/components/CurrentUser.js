@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { Menu as UIMenu, Grid } from 'semantic-ui-react'
 
 const style = {
-	marginBottom: "20px"
+	marginBottom: "20px",
+	marginTop: "0px"
 }
 
 const CurrentUser = (props) => {

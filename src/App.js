@@ -12,6 +12,9 @@ import Users from './components/Users'
 import Negotiations from './components/Negotiations'
 import MemberForm from './components/MemberForm'
 import Controls from './components/Controls'
+import MenuBottom from './components/MenuBottom'
+import HowToPlay from './components/HowToPlay'
+import About from './components/About'
 import { getServerTime, oneTick } from './reducers/timeReducer'
 import { initializeMembers } from './reducers/membersReducer'
 import { initializeDisplaynames } from './reducers/displaynamesReducer'
@@ -100,6 +103,15 @@ const App = (props) => {
 					} />
 					<Route exact path="/controls" render={() =>
 						<Controls />
+					} />
+					<Route exact path="/howtoplay" render={() =>
+						<HowToPlay />
+					} />
+					<Route exact path="/about" render={() =>
+						<About />
+					} />
+					<Route path="/" render={() =>
+						<MenuBottom />
 					} />
 				</Segment>
 			</Router>

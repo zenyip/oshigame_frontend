@@ -48,7 +48,7 @@ const Menu = (props) => {
 			</Responsive>
 			<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 				<Icon name='sign in' />
-				<Link to="/login" style={linkStyle}>login / sign up</Link>
+				<Link to="/login" style={linkStyle}>Login / Sign up</Link>
 			</Responsive>
 		</UIMenu.Item>
 	)
@@ -65,7 +65,7 @@ const Menu = (props) => {
 
 	return (
 		<React.Fragment>
-			<UIMenu style={style} widths={menuWidth()} color='pink' inverted>
+			<UIMenu className='ui top fixed menu' style={style} widths={menuWidth()} color='pink' inverted>
 				<UIMenu.Item>
 					<Responsive {...Responsive.onlyMobile}>
 						<Link to="/" style={linkStyle}><Icon name='home' /></Link>
@@ -88,6 +88,7 @@ const Menu = (props) => {
 				{adminMenu()}
 				{signInOut()}
 			</UIMenu>
+			<div style={{padding: 20}}/>
 			<CurrentUser />
 		</React.Fragment>
 	)

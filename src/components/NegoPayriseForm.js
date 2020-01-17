@@ -10,6 +10,7 @@ const PayriseForm = (props) => {
 	const { shownMember } = props
 	const [payrise, setPayrise] = useState('')
 	const [confirmOpen, setConfirmOpen] = useState(false)
+	const [dummyConfirmOpen, setDummyConfirmOpen] = useState(false)
 
 	const inlineStyle = {
 		display: 'inline'
@@ -21,6 +22,8 @@ const PayriseForm = (props) => {
 
 	const handlePayriseConfirm = async (event) => {
 		event.preventDefault()
+		setConfirmOpen(false)
+		setDummyConfirmOpen(true)
 		try {
 			const payriseBody = {
 				memberId: shownMember.id,
@@ -34,6 +37,11 @@ const PayriseForm = (props) => {
 		} catch (exception) {
 			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 		}
+		setDummyConfirmOpen(false)
+	}
+
+	const handleDummyClick = (event) => {
+		event.preventDefault()
 	}
 
 	const handlePayrise = async (event) => {
@@ -61,6 +69,12 @@ const PayriseForm = (props) => {
 				content={`Confirm to value up ${shownMember.nickname} by $${payrise} to $${parseInt(shownMember.value) + parseInt(payrise)}?`}
 				onCancel={handlePayriseCancel}
 				onConfirm={handlePayriseConfirm}
+			/>
+			<Confirm
+				open={dummyConfirmOpen}
+				content={`Please wait......`}
+				onCancel={handleDummyClick}
+				onConfirm={handleDummyClick}
 			/>
 		</React.Fragment>
 	)

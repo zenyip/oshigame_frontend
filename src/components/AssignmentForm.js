@@ -13,9 +13,9 @@ const AssignmentForm = (props) => {
 	const [processing, setProcessing] = useState(false)
 
 	const assignmentOptions = [
-		{ key: 'assignment1', text: '1hr Showroom (free, gain little fans)', value: 'SHOWROOM' },
-		{ key: 'assignment2', text: '4hr handshaking (4hr salary, gain money base on fanbase size)', value: 'HANDSHAKE' },
-		{ key: 'assignment3', text: '2hr TV show ($1000 + 2hr salary, gain large number of fans)', value: 'TV' }
+		{ key: 'assignment1', text: '1hr Showroom (free, gain little fans). Cost: Free / Expected Reward: ~50 fans', value: 'SHOWROOM' },
+		{ key: 'assignment2', text: `4hr handshaking (4hr salary, gain money base on fanbase size). Cost: $${Math.floor(shownMember.value*0.4)} / Expected Reward: ~$${Math.floor(shownMember.fanSize*0.7)}`, value: 'HANDSHAKE' },
+		{ key: 'assignment3', text: `2hr TV show ($1000 + 2hr salary, gain large number of fans). Cost: $${Math.floor(shownMember.value*0.2) + 1000} / Expected Reward: ~750 fans`, value: 'TV' }
 	]
 
 	const handleAssign = async (event) => {

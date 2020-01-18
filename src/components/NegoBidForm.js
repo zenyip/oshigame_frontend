@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import ButtonProcessing from './ButtonProcessing'
 import { setNotification } from '../reducers/notificationReducer'
 import negotiationsService from '../services/negotiations'
 import { setUserByToken } from '../reducers/userReducer'
-import { initializeMembers } from '../reducers/membersReducer'
+import { initializeMembers, updateMemberBid } from '../reducers/membersReducer'
 import { connect } from 'react-redux'
 import { Form, Button } from 'semantic-ui-react'
 
 const BidForm = (props) => {
 	const { shownMember } = props
 	const [bid, setBid] = useState('')
+	const [processing, setProcessing] = useState(false)
 
 	const inlineStyle = {
 		display: 'inline'
@@ -21,6 +23,7 @@ const BidForm = (props) => {
 	const handleBid = async (event) => {
 		event.preventDefault()
 		if (props.phrase === 'negotiation') {
+			setProcessing(true)
 			try {
 				const newBid = {
 					memberId: shownMember.id,
@@ -45,6 +48,7 @@ const BidForm = (props) => {
 			} catch (exception) {
 				props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 			}
+			setProcessing(false)
 		}
 	}
 
@@ -60,6 +64,13 @@ const BidForm = (props) => {
 		}
 	}
 
+	const button = () => processing ?
+		<ButtonProcessing /> : (
+		<Button type="submit" color='pink'>
+			Place Bid
+		</Button>
+	)
+
 	return (
 		<Form onSubmit={handleBid} style={props.style}>
 			<Form.Input
@@ -70,9 +81,7 @@ const BidForm = (props) => {
 				onChange={({ target }) => setBid(target.value)}
 				value={bid}
 			/>
-			<Button type="submit" color='pink'>
-				Place Bid
-			</Button>
+			{button()}
 		</Form>
 	)
 }
@@ -88,7 +97,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
 	setNotification,
 	setUserByToken,
-	initializeMembers
+	initializeMembers,
+	updateMemberBid
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BidForm)

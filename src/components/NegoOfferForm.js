@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import ButtonProcessing from './ButtonProcessing'
 import { setNotification } from '../reducers/notificationReducer'
 import negotiationsService from '../services/negotiations'
 import { setUserByToken } from '../reducers/userReducer'
@@ -10,6 +11,8 @@ const OfferForm = (props) => {
 	const { shownMember } = props
 	const [offer, setOffer] = useState('')
 	const [forceTradeConfirmOpen, setForceTradeConfirmOpen] = useState(false)
+	const [dummyConfirmOpen, setDummyConfirmOpen] = useState(false)
+	const [processing, setProcessing] = useState(false)
 
 	const inlineStyle = {
 		display: 'inline'
@@ -28,6 +31,8 @@ const OfferForm = (props) => {
 	}
 
 	const handleForceTradeConfirm = async () => {
+		setForceTradeConfirmOpen(false)
+		setDummyConfirmOpen(true)
 		try {
 			const newForceTrade = {
 				memberId: shownMember.id,
@@ -42,12 +47,13 @@ const OfferForm = (props) => {
 		} catch (exception) {
 			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 		}
-		setForceTradeConfirmOpen(false)
+		setDummyConfirmOpen(false)
 	}
 
 	const handleOffer = async (event) => {
 		event.preventDefault()
 		if (props.phrase === 'negotiation') {
+			setProcessing(true)
 			if (offer < lowerLimit) {
 				props.setNotification({ content: 'your offer is too low', colour: 'red' }, 5)
 			} else if (offer > upperLimit) {
@@ -67,8 +73,20 @@ const OfferForm = (props) => {
 					props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 				}
 			}
+			setProcessing(false)
 		}
 	}
+
+	const handleDummyClick = (event) => {
+		event.preventDefault()
+	}
+
+	const button = () => processing ?
+		<ButtonProcessing /> : (
+		<Button type="submit" color='pink'>
+			Send Negotiation Offer
+		</Button>
+	)
 
 	return (
 		<React.Fragment>
@@ -81,15 +99,19 @@ const OfferForm = (props) => {
 					onChange={({ target }) => setOffer(target.value)}
 					value={offer}
 				/>
-				<Button type="submit" color='pink'>
-					Send Negotiation Offer
-				</Button>
+				{button()}
 			</Form>
 			<Confirm
 				open={forceTradeConfirmOpen}
 				content={`Confirm to force trade ${shownMember.nickname} at ${forceTradePrice} ?`}
 				onCancel={handleForceTradeCancel}
 				onConfirm={handleForceTradeConfirm}
+			/>
+			<Confirm
+				open={dummyConfirmOpen}
+				content={`Please wait......`}
+				onCancel={handleDummyClick}
+				onConfirm={handleDummyClick}
 			/>
 		</React.Fragment>
 	)

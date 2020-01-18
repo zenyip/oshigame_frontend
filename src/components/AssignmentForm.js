@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import ButtonProcessing from './ButtonProcessing'
 import { setNotification } from '../reducers/notificationReducer'
 import jobService from '../services/job'
 import { setUserByToken } from '../reducers/userReducer'
@@ -9,6 +10,7 @@ import { Form, Button, Select } from 'semantic-ui-react'
 const AssignmentForm = (props) => {
 	const { shownMember } = props
 	const [assignment, setAssignemt] = useState('')
+	const [processing, setProcessing] = useState(false)
 
 	const assignmentOptions = [
 		{ key: 'assignment1', text: '1hr Showroom (free, gain little fans)', value: 'SHOWROOM' },
@@ -18,6 +20,7 @@ const AssignmentForm = (props) => {
 
 	const handleAssign = async (event) => {
 		event.preventDefault()
+		setProcessing(true)
 		if (!assignment) {
 			props.setNotification({ content: 'assignment has not been chosen' , colour: 'red' })
 			return
@@ -35,7 +38,12 @@ const AssignmentForm = (props) => {
 		} catch (exception) {
 			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 		}
+		setProcessing(false)
 	}
+
+	const button = () => processing ?
+		<ButtonProcessing /> :
+		<Button type="submit">Assign</Button>
 
 	return (
 		<Form onSubmit={handleAssign} style={props.style}>
@@ -47,7 +55,7 @@ const AssignmentForm = (props) => {
 				onChange={(e, data) => setAssignemt(data.value)}
 				value={assignment}
 			/>
-			<Button type="submit">Assign</Button>
+			{button()}
 		</Form>
 	)
 }

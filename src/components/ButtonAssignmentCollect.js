@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import ButtonProcessing from './ButtonProcessing'
 import { setNotification } from '../reducers/notificationReducer'
 import jobService from '../services/job'
 import remainTime from './modules/remainTime'
@@ -9,6 +10,8 @@ import { Button } from 'semantic-ui-react'
 
 const ButtonAssignmentCollect = (props) => {
 	const { shownMember } = props
+	const [processing, setProcessing] = useState(false)
+
 	let style = {}
 	if (props.style) {
 		style = props.style
@@ -18,6 +21,7 @@ const ButtonAssignmentCollect = (props) => {
 
 	const handleAssignmentCollect = async (event) => {
 		event.preventDefault()
+		setProcessing(true)
 		try {
 			const response = await jobService.collectJob(shownMember.id, props.token)
 			await props.initializeMembers()
@@ -36,13 +40,14 @@ const ButtonAssignmentCollect = (props) => {
 		} catch (exception) {
 			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 		}
+		setProcessing(false)
 	}
 
-	return (
+	return processing ?
+		<ButtonProcessing style={style} /> :
 		<Button onClick={handleAssignmentCollect} style={style} color='pink'>
 			{props.short ? 'Collect' : 'Collect Assignment Rewards'}
 		</Button>
-	)
 }
 
 const mapStateToProps = (state) => {

@@ -9,6 +9,7 @@ import { Button, Confirm } from 'semantic-ui-react'
 const ButtonRelease = (props) => {
 	const { shownMember } = props
 	const [releaseConfirmOpen, setReleaseConfirmOpen] = useState(false)
+	const [dummyConfirmOpen, setDummyConfirmOpen] = useState(false)
 
 	const releasePrice = Math.floor(shownMember.value*0.5)
 
@@ -17,6 +18,8 @@ const ButtonRelease = (props) => {
 	}
 
 	const handleReleaseConfirm = async () => {
+		setReleaseConfirmOpen(false)
+		setDummyConfirmOpen(true)
 		try {
 			const newRelease = {
 				memberId: shownMember.id,
@@ -30,12 +33,16 @@ const ButtonRelease = (props) => {
 		} catch (exception) {
 			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 		}
-		setReleaseConfirmOpen(false)
+		setDummyConfirmOpen(false)
 	}
 
 	const handleRelease = async (event) => {
 		event.preventDefault()
 		setReleaseConfirmOpen(true)
+	}
+
+	const handleDummyClick = (event) => {
+		event.preventDefault()
 	}
 
 	return (
@@ -48,6 +55,12 @@ const ButtonRelease = (props) => {
 				content={`Confirm to RELEASE ${shownMember.nickname} and get back ${releasePrice} ?`}
 				onCancel={handleReleaseCancel}
 				onConfirm={handleReleaseConfirm}
+			/>
+			<Confirm
+				open={dummyConfirmOpen}
+				content={`Please wait......`}
+				onCancel={handleDummyClick}
+				onConfirm={handleDummyClick}
 			/>
 		</React.Fragment>
 	)

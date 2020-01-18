@@ -61,7 +61,7 @@ const PayriseForm = (props) => {
 					value={payrise}
 				/>
 				<Button type="submit" color='pink'>
-					Confirm Pay Rise
+					Pay Rise
 				</Button>
 			</Form>
 			<Confirm

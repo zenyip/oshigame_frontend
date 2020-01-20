@@ -23,6 +23,7 @@ const AssignmentForm = (props) => {
 		setProcessing(true)
 		if (!assignment) {
 			props.setNotification({ content: 'assignment has not been chosen' , colour: 'red' })
+			setProcessing(false)
 			return
 		}
 		try {

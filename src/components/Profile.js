@@ -4,11 +4,12 @@ import Loading from './Loading'
 import ReportViewer from './ReportViewer'
 import ReportDownloader from './ReportDownloader'
 import { connect } from 'react-redux'
-import { Responsive, Button, Icon } from 'semantic-ui-react'
+import { Responsive, Button, Icon, Dimmer, Message } from 'semantic-ui-react'
 
 const Profile = (props) => {
 	const { user, members } = props
-	const [showReport, setShowReport] = useState(false)
+	const [ dimmerOn, setDimmerOn ] = useState(false)
+	const [ showReport, setShowReport ] = useState(false)
 	const reportStyle = showReport ? {display: null} : {display: 'none'}
 
 	const toggleReport = () => {
@@ -33,7 +34,12 @@ const Profile = (props) => {
 				<div style={reportStyle}>
 					<ReportViewer />
 				</div>
-				<User shownUser = {user} />
+				<User shownUser = {user} setDimmerOn = {setDimmerOn} />
+				<Dimmer active={dimmerOn} page>
+					<Message color='orange'>
+						Processing...
+					</Message>
+				</Dimmer>
 			</div>
 		)
 	} else {

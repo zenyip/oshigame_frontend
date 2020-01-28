@@ -22,6 +22,7 @@ const ButtonAssignmentCollect = (props) => {
 	const handleAssignmentCollect = async (event) => {
 		event.preventDefault()
 		setProcessing(true)
+		props.setDimmerOn(true)
 		try {
 			const response = await jobService.collectJob(shownMember.id, props.token)
 			await props.initializeMembers()
@@ -41,6 +42,7 @@ const ButtonAssignmentCollect = (props) => {
 			props.setNotification({ content: exception.response.data.error, colour: 'red' }, 'long')
 		}
 		setProcessing(false)
+		props.setDimmerOn(false)
 	}
 
 	return processing ?

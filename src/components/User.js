@@ -45,8 +45,8 @@ const User = (props) => {
 							</Link>
 							{jobState(m)}
 						</div>
-						<ButtonAssignmentCollect shownMember={m} short={true}/>
-						<ButtonAssignmentCancel shownMember={m} short={true}/>
+						<ButtonAssignmentCollect shownMember={m} short={true} setDimmerOn={props.setDimmerOn}/>
+						<ButtonAssignmentCancel shownMember={m} short={true} />
 					</div>
 				)) :
 				'none'

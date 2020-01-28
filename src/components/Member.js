@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { setNotification } from '../reducers/notificationReducer'
 import { setUserByToken } from '../reducers/userReducer'
 import { updateMemberBid, initializeMembers } from '../reducers/membersReducer'
@@ -12,10 +12,11 @@ import AssignmentForm from './AssignmentForm'
 import ButtonAssignmentCancel from './ButtonAssignmentCancel'
 import ButtonAssignmentCollect from './ButtonAssignmentCollect'
 import { connect } from 'react-redux'
-import { Grid, Table } from 'semantic-ui-react'
+import { Grid, Table, Dimmer, Message } from 'semantic-ui-react'
 
 const Member = (props) => {
 	const { shownMember, serverTime } = props
+	const [ dimmerOn, setDimmerOn ] = useState(false)
 
 	let bidFormStyle = { display: 'none' }
 	let offerFormStyle = { display: 'none' }
@@ -131,7 +132,7 @@ const Member = (props) => {
 								</Table.Body>
 							</Table>
 							<AssignmentForm shownMember={shownMember} style={assignmentFormStyle} />
-							<ButtonAssignmentCollect shownMember={shownMember} style={assignmentCollectStyle} />
+							<ButtonAssignmentCollect shownMember={shownMember} style={assignmentCollectStyle} setDimmerOn={setDimmerOn}/>
 							<ButtonAssignmentCancel shownMember={shownMember} style={assignmentCancelStyle} />
 						</Grid.Column>
 					</Grid.Row>
@@ -187,7 +188,7 @@ const Member = (props) => {
 								</Table.Body>
 							</Table>
 							<AssignmentForm shownMember={shownMember} style={assignmentFormStyle} />
-							<ButtonAssignmentCollect shownMember={shownMember} style={assignmentCollectStyle} />
+							<ButtonAssignmentCollect shownMember={shownMember} style={assignmentCollectStyle} setDimmerOn={setDimmerOn}/>
 							<ButtonAssignmentCancel shownMember={shownMember} style={assignmentCancelStyle} />
 						</Grid.Column>
 					</Grid.Row>
@@ -197,6 +198,11 @@ const Member = (props) => {
 				<PayriseForm shownMember={shownMember} style={payriseFormStyle} />
 				<ButtonLateSign shownMember={shownMember} style={lateSignButtonStyle} />
 				<ButtonRelease shownMember={shownMember} style={releaseButtonStyle} />
+				<Dimmer active={dimmerOn} page>
+					<Message color='orange'>
+						Processing...
+					</Message>
+				</Dimmer>
 			</div>
 		)
 	} else {

@@ -25,7 +25,7 @@ const Users = (props) => {
 				</div>
 			))
 		} else {
-			return <Loading />
+			return <Loading active={true}/>
 		}
 	}
 

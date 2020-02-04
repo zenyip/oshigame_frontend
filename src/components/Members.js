@@ -323,7 +323,7 @@ const Members = props => {
 		)
 	} else {
 		return (
-			<Loading />
+			<Loading active={true}/>
 		)
 	}
 }

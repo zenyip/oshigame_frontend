@@ -4,7 +4,7 @@ import Loading from './Loading'
 import ReportViewer from './ReportViewer'
 import ReportDownloader from './ReportDownloader'
 import { connect } from 'react-redux'
-import { Responsive, Button, Icon, Dimmer, Message } from 'semantic-ui-react'
+import { Responsive, Button, Icon } from 'semantic-ui-react'
 
 const Profile = (props) => {
 	const { user, members } = props
@@ -35,15 +35,11 @@ const Profile = (props) => {
 					<ReportViewer />
 				</div>
 				<User shownUser = {user} setDimmerOn = {setDimmerOn} />
-				<Dimmer active={dimmerOn} page>
-					<Message color='orange'>
-						Processing...
-					</Message>
-				</Dimmer>
+				<Loading active={dimmerOn}/>
 			</div>
 		)
 	} else {
-		return <Loading />
+		return <Loading active={true}/>
 	}
 }
 

@@ -199,7 +199,7 @@ const User = (props) => {
 			</div>
 		)
 	} else {
-		return <Loading />
+		return <Loading active={true}/>
 	}
 }
 

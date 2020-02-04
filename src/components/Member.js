@@ -11,8 +11,9 @@ import ButtonRelease from './ButtonRelease'
 import AssignmentForm from './AssignmentForm'
 import ButtonAssignmentCancel from './ButtonAssignmentCancel'
 import ButtonAssignmentCollect from './ButtonAssignmentCollect'
+import Loading from './Loading'
 import { connect } from 'react-redux'
-import { Grid, Table, Dimmer, Message } from 'semantic-ui-react'
+import { Grid, Table } from 'semantic-ui-react'
 
 const Member = (props) => {
 	const { shownMember, serverTime } = props
@@ -198,11 +199,7 @@ const Member = (props) => {
 				<PayriseForm shownMember={shownMember} style={payriseFormStyle} />
 				<ButtonLateSign shownMember={shownMember} style={lateSignButtonStyle} />
 				<ButtonRelease shownMember={shownMember} style={releaseButtonStyle} />
-				<Dimmer active={dimmerOn} page>
-					<Message color='orange'>
-						Processing...
-					</Message>
-				</Dimmer>
+				<Loading active={dimmerOn}/>
 			</div>
 		)
 	} else {

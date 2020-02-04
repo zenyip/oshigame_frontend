@@ -1,10 +1,11 @@
 import React from 'react'
-import { Dimmer, Loader } from 'semantic-ui-react'
+import { Dimmer } from 'semantic-ui-react'
+import '../css/animations.css'
 
-const Loading = () => {
+const Loading = (props) => {
 	return (
-		<Dimmer active page>
-			<Loader>Loading...</Loader>
+		<Dimmer active={props.active} page>
+			<div id='loadingLogo' />
 		</Dimmer>
 	)
 }

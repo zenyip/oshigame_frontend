@@ -50,7 +50,7 @@ const Banner = (props) => {
 				<img key={m.id} src={m.pic_link} alt={`${m.name_e.firstname} ${m.name_e.lastname}`} sylte={picStyle} width={width}/>
 			))
 		}
-		return <Loading />
+		return <Loading active={true} />
 	}
 
 	return (

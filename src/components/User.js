@@ -40,7 +40,7 @@ const User = (props) => {
 				u.oshimens.map(m => (
 					<div key={m.id}>
 						<div>
-							<Link to={`/members/${m.id}`}>
+							<Link to={`/game/members/${m.id}`}>
 								{m.nickname}
 							</Link>
 							{jobState(m)}
@@ -160,7 +160,7 @@ const User = (props) => {
 								<div>RECEIVED OFFERS</div>
 								{receivedOfferList.map(n => (
 									<div key={n.id}>
-										<Link to={`/members/${n.member}`}>
+										<Link to={`/game/members/${n.member}`}>
 											{nickname(n.member)}
 										</Link>
 										{` at ${n.bid} from ${displayname(n.applicant)} `}

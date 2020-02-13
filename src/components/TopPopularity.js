@@ -30,7 +30,7 @@ const TopPopularity = (props) => {
 			return topMembers.map(m => (
 				<div key={m.id}>
 					{`${topMembers.indexOf(m) + 1}. `}
-					<Link to={`/members/${m.id}`} onMouseOver={()=>showPic(m)} onMouseOut={hidePic}>
+					<Link to={`/game/members/${m.id}`} onMouseOver={()=>showPic(m)} onMouseOut={hidePic}>
 						{m.nickname}
 					</Link>
 					{` with ${m.fanSize} fans`}

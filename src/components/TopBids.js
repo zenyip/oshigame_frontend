@@ -31,7 +31,7 @@ const TopBids = (props) => {
 				<div key={b.id}>
 					<div>
 						{`${topBids.indexOf(b) + 1}. `}
-						<Link to={`/members/${b.memberId}`} onMouseOver={()=>showPic(b)} onMouseOut={hidePic}>
+						<Link to={`/game/members/${b.memberId}`} onMouseOver={()=>showPic(b)} onMouseOut={hidePic}>
 							{b.nickname}
 						</Link>
 						{` at ${b.bid}`}

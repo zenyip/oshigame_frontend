@@ -15,6 +15,7 @@ import Controls from './components/Controls'
 import MenuBottom from './components/MenuBottom'
 import HowToPlay from './components/HowToPlay'
 import About from './components/About'
+import Author from './components/Author'
 import { getServerTime, oneTick } from './reducers/timeReducer'
 import { initializeMembers } from './reducers/membersReducer'
 import { initializeDisplaynames } from './reducers/displaynamesReducer'
@@ -68,50 +69,56 @@ const App = (props) => {
 		<Container>
 			<Router>
 				<Segment basic>
-					<Route path="/" render={() =>
+					<Route path="/game" render={() =>
 						<div>
 							<Menu />
 							<Notification />
 						</div>
 					} />
 					<Route exact path="/" render={() =>
+						<Redirect to="/game" />
+					} />
+					<Route exact path="/game" render={() =>
 						<Home />
 					} />
-					<Route exaxt path="/login" render={() =>
-						props.user ? <Redirect to="/" /> : <Login />
+					<Route exaxt path="/game/login" render={() =>
+						props.user ? <Redirect to="/game" /> : <Login />
 					} />
-					<Route exaxt path="/sign_up" render={() =>
-						props.user ? <Redirect to="/" /> : <SignUpForm />
+					<Route exaxt path="/game/sign_up" render={() =>
+						props.user ? <Redirect to="/game" /> : <SignUpForm />
 					} />
-					<Route exact path="/members" render={() =>
+					<Route exact path="/game/members" render={() =>
 						<Members />
 					} />
-					<Route exact path="/members/:id" render={({ match }) =>
+					<Route exact path="/game/members/:id" render={({ match }) =>
 						<Member shownMember={memberById(match.params.id)} />
 					} />
-					<Route exact path="/profile" render={() =>
+					<Route exact path="/game/profile" render={() =>
 						<Profile />
 					} />
-					<Route exact path="/users" render={() =>
+					<Route exact path="/game/users" render={() =>
 						<Users />
 					} />
-					<Route exact path="/negotiations" render={() =>
+					<Route exact path="/game/negotiations" render={() =>
 						<Negotiations />
 					} />
-					<Route exact path="/new_member" render={() =>
+					<Route exact path="/game/new_member" render={() =>
 						<MemberForm />
 					} />
-					<Route exact path="/controls" render={() =>
+					<Route exact path="/game/controls" render={() =>
 						<Controls />
 					} />
-					<Route exact path="/howtoplay" render={() =>
+					<Route exact path="/game/howtoplay" render={() =>
 						<HowToPlay />
 					} />
-					<Route exact path="/about" render={() =>
+					<Route exact path="/game/about" render={() =>
 						<About />
 					} />
-					<Route path="/" render={() =>
+					<Route path="/game" render={() =>
 						<MenuBottom />
+					} />
+					<Route exact path="/author" render={() =>
+						<Author />
 					} />
 				</Segment>
 			</Router>

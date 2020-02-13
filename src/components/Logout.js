@@ -12,7 +12,7 @@ const LogoutNoHistory = (props) => {
 		props.setToken(null)
 		props.setUser(null)
 		props.setNotification({ content: 'logged out successfully', colour: 'green' }, 'short')
-		props.history.push('/')
+		props.history.push('/game')
 	}
 
 	const linkStyle = {
@@ -23,11 +23,11 @@ const LogoutNoHistory = (props) => {
 	return (
 		<React.Fragment>
 			<Responsive {...Responsive.onlyMobile}>
-				<Link onClick={handleLogout} to="/" style={linkStyle}><Icon name='sign out' /></Link>
+				<Link onClick={handleLogout} to="/game" style={linkStyle}><Icon name='sign out' /></Link>
 			</Responsive>
 			<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 				<Icon name='sign out' onClick={handleLogout} />
-				<Link onClick={handleLogout} to='/' style={linkStyle}>Logout</Link>
+				<Link onClick={handleLogout} to='/game' style={linkStyle}>Logout</Link>
 			</Responsive>
 		</React.Fragment>
 	)

@@ -51,7 +51,7 @@ const LoginNoHistory = (props) => {
 				value={password}
 			/>
 			<Button type="submit">login</Button>
-			<Link to="/sign_up"><Button color='pink' >Sign Up</Button></Link>
+			<Link to="/game/sign_up"><Button color='pink' >Sign Up</Button></Link>
 		</Form>
 	)
 }

@@ -30,16 +30,16 @@ const AdminMenu = (props) => {
 	return (
 		<React.Fragment>
 			<UIMenu.Item link>
-				<Link to="/users" style={linkStyle}>users</Link>
+				<Link to="/game/users" style={linkStyle}>users</Link>
 			</UIMenu.Item>
 			<UIMenu.Item link>
-				<Link to="/negotiations" style={linkStyle}>negotiations</Link>
+				<Link to="/game/negotiations" style={linkStyle}>negotiations</Link>
 			</UIMenu.Item>
 			<UIMenu.Item link>
-				<Link to="/new_member" style={linkStyle}>edit member</Link>
+				<Link to="/game/new_member" style={linkStyle}>edit member</Link>
 			</UIMenu.Item>
 			<UIMenu.Item link>
-				<Link to="/controls" style={linkStyle}>controls</Link>
+				<Link to="/game/controls" style={linkStyle}>controls</Link>
 			</UIMenu.Item>
 			<UIMenu.Item>
 				<Button onClick={handleReset}>RESET DB</Button>

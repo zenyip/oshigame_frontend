@@ -212,7 +212,7 @@ const Members = props => {
 					return (
 						<Grid.Column key={m.id}>
 							<Grid.Row>
-								<Link to={`/members/${m.id}`}>
+								<Link to={`/game/members/${m.id}`}>
 									<div>
 										<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 											<Reveal animated='fade' instant>

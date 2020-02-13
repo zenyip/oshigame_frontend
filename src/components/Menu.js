@@ -20,11 +20,11 @@ const Menu = (props) => {
 	const extendedMenu = () => (props.user ?
 		<UIMenu.Item>
 			<Responsive {...Responsive.onlyMobile}>
-				<Link to="/profile" style={linkStyle}><Icon name='vcard' /></Link>
+				<Link to="/game/profile" style={linkStyle}><Icon name='vcard' /></Link>
 			</Responsive>
 			<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 				<Icon name='vcard' />
-				<Link to="/profile" style={linkStyle}>Profile</Link>
+				<Link to="/game/profile" style={linkStyle}>Profile</Link>
 			</Responsive>
 		</UIMenu.Item> :
 		null
@@ -44,11 +44,11 @@ const Menu = (props) => {
 		</UIMenu.Item> :
 		<UIMenu.Item>
 			<Responsive {...Responsive.onlyMobile}>
-				<Link to="/login" style={linkStyle}><Icon name='sign in' /></Link>
+				<Link to="/game/login" style={linkStyle}><Icon name='sign in' /></Link>
 			</Responsive>
 			<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 				<Icon name='sign in' />
-				<Link to="/login" style={linkStyle}>Login / Sign up</Link>
+				<Link to="/game/login" style={linkStyle}>Login / Sign up</Link>
 			</Responsive>
 		</UIMenu.Item>
 	)
@@ -68,20 +68,20 @@ const Menu = (props) => {
 			<UIMenu className='ui top fixed menu' style={style} widths={menuWidth()} color='pink' inverted>
 				<UIMenu.Item>
 					<Responsive {...Responsive.onlyMobile}>
-						<Link to="/" style={linkStyle}><Icon name='home' /></Link>
+						<Link to="/game" style={linkStyle}><Icon name='home' /></Link>
 					</Responsive>
 					<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 						<Icon name='home' />
-						<Link to="/" style={linkStyle}>Home</Link>
+						<Link to="/game" style={linkStyle}>Home</Link>
 					</Responsive>
 				</UIMenu.Item>
 				<UIMenu.Item>
 					<Responsive {...Responsive.onlyMobile}>
-						<Link to="/members" style={linkStyle}><Icon name='female' /></Link>
+						<Link to="/game/members" style={linkStyle}><Icon name='female' /></Link>
 					</Responsive>
 					<Responsive minWidth={Responsive.onlyTablet.minWidth}>
 						<Icon name='female' />
-						<Link to="/members" style={linkStyle}>Members</Link>
+						<Link to="/game/members" style={linkStyle}>Members</Link>
 					</Responsive>
 				</UIMenu.Item>
 				{extendedMenu()}
